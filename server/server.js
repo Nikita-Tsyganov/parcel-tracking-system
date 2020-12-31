@@ -9,8 +9,9 @@ db.authenticate()
   .then(() => console.log('Database connected...'))
   .catch(err => console.log('Error: ' + err))
 
-// const app = express();
+ const app = express();
 
+ app.use(express.json());
 // // DB Config
 // const db = require("./config/database.js").mongoURI;
 
@@ -28,9 +29,9 @@ db.authenticate()
 // app.use(express.urlencoded({ extended: false }));
 
 // // Todos API Routes
-// app.use("/api/todos", require("./routes/api/TodosRouter.js"));
-// app.use("/api/users", require("./routes/api/UserRouter.js"));
+ app.use("/api/todos", require("./routes/api/TodosRouter.js"));
+ app.use("/api/users", require("./routes/api/UserRouter.js"));
 
-// const PORT = /* process.env.PORT ||  */ 5000;
+ const PORT = /* process.env.PORT ||  */ 5000;
 
-// app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+ app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

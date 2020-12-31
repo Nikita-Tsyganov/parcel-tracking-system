@@ -1,6 +1,11 @@
 const router = require("express").Router();
 const UserController = require("../../controllers/UserController.js");
 
+router.get("/", (req,res,next) => {
+    res.json({ test: 'test' });
+});
+
+
 // @route  GET api/users
 // @desc   Get All Users
 // access  Public
