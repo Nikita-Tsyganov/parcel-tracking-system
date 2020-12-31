@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <Logo />
-      <h1 class="title">parcel-tracking-system</h1>
+      <h1 class="title">HOOOPPPLLLAAAAAAAA</h1>
       <div class="links">
         <a
           href="https://nuxtjs.org/"
