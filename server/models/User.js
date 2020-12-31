@@ -6,14 +6,17 @@ const User = db.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  hash: {
+  password: {
     type: DataTypes.STRING
   },
   dateJoined: {
     type: DataTypes.STRING,
     default: Date.now
   },
-  name: {
+  lastname: {
+    type: DataTypes.STRING
+  },
+  firstname: {
     type: DataTypes.STRING
   }
 });
