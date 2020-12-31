@@ -5,7 +5,7 @@
       <h1 class="title">HOOOPPPLLLAAAAAAAA</h1>
       <div class="links">
         <a
-          href="https://nuxtjs.org/"
+          href="youtube.com"
           target="_blank"
           rel="noopener noreferrer"
           class="button--green"
