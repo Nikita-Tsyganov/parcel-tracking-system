@@ -2,6 +2,13 @@ const { DataTypes } = require("sequelize");
 const db = require('../config/database');
 
 const User = db.define('User', {
+ 
+ 
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+},
+
   username: {
     type: DataTypes.STRING,
     allowNull: false
@@ -9,16 +16,14 @@ const User = db.define('User', {
   password: {
     type: DataTypes.STRING
   },
-  dateJoined: {
-    type: DataTypes.STRING,
-    default: Date.now
-  },
   lastname: {
     type: DataTypes.STRING
   },
   firstname: {
     type: DataTypes.STRING
-  }
+  },
+  role:{
+    type: DataTypes.INTEGER }
 });
 
 User.sync().then(() => {

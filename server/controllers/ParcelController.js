@@ -3,12 +3,12 @@ const Parcel = require("../models/Parcel.js");
 const ParcelsController = {
   // @desc Get All Parcels
   all: (req, res) => {
-    Parcel.find().then(parcels => res.json(parcels));
+    Parcel.findAll().then(parcels => res.json(parcels));
   },
 
   // @desc Get A Single Parcel
   find: (req, res) => {
-    Parcel.findById(req.params.id).then(parcel => res.json(parcel));
+    Parcel.findOne({ where: { id: req.params.id } }).then(parcel => res.json(parcel));
   },
 
   // @desc Create A Parcel
@@ -20,8 +20,34 @@ const ParcelsController = {
       .then(parcel => res.json(parcel));
   },
 
+  update: (req, res) => { 
+
+    const p= Parcel.findOne({ where: { id: req.params.id } });
+    
+    Parcel.update(
+  
+    { title: req.body.title },
+  
+    // Where clause / criteria 
+           { id : p.id }     
+  
+   )
+  },
+  delete: (req, res) => { 
+
+    const p= Parcel.findOne({ where: { id: req.params.id } });
+    
+    Parcel.destroy(
+    // Where clause / criteria 
+           { id : p.id }     
+  
+   )
+  },
+   
+  
+
   // @desc Update A Parcel
-  update: (req, res) => {
+  /* update: (req, res) => {
     Parcel.findByIdAndUpdate(
       req.params.id,
       {
@@ -32,12 +58,12 @@ const ParcelsController = {
         new: true
       }
     ).then(parcel => res.json(parcel));
-  },
+  }, 
 
   // @desc Delete A Parcel
   delete: (req, res) => {
     Parcel.findByIdAndRemove(req.params.id).then(parcel => res.json(parcel));
-  }
+  } */
 };
 
 module.exports = parcelsController;

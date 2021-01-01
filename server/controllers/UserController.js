@@ -3,21 +3,21 @@ const bcrypt = require("bcrypt");
 const UserController = {
   // @desc Get All Todos
   all: (req, res) => {
-    User.find().then(users => res.json(users));
+    User.findAll().then(users => res.json(users));
   },
 
   // @desc Get A Single Todo
   find: (req, res) => {
     console.log(req.params);
-    User.findById(req.params.id).then(user => res.json(user));
+    User.findOne({ where: { _id: req.params.id } }).then(user => res.json(user));
   },
 
   // @desc Sign in a user
   signIn: (req, res) => {
-    User.find({ email: req.body.email })
+    User.findOne({ where:{ username: req.body.username }  })
       .then(user => {
-        const { email, password } = req.body;
-        if (!email || !password) {
+        const { username, password } = req.body;
+        if (!username || !password) {
           return res.status(400).json("incorrect form submission");
         }
 
@@ -40,10 +40,12 @@ const UserController = {
     console.log(req.body);
     const hash = bcrypt.hashSync(req.body.password, 10);
     new User({
-      email: req.body.email,
-      hash: hash,
+      username: req.body.username,
+      password: hash,
       //dateJoined: req.body.dateJoined,
-      name: req.body.name
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      role:req.body.role
     })
       .save()
       .then(user => res.json(user));
