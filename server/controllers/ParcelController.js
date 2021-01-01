@@ -22,24 +22,24 @@ const ParcelsController = {
 
   update: (req, res) => { 
 
-    const p= Parcel.findOne({ where: { id: req.params.id } });
+     Parcel.findOne({ where: { id: req.params.id } });
     
     Parcel.update(
   
     { title: req.body.title },
   
     // Where clause / criteria 
-           { id : p.id }     
+           { id : req.params.id }     
   
    )
   },
   delete: (req, res) => { 
 
-    const p= Parcel.findOne({ where: { id: req.params.id } });
+    Parcel.findOne({ where: { id: req.params.id } });
     
     Parcel.destroy(
     // Where clause / criteria 
-           { id : p.id }     
+           { id : req.params.id}     
   
    )
   },
