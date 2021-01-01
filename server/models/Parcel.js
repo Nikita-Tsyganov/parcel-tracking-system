@@ -1,28 +1,23 @@
-const { DataTypes } = require("sequelize");
-const db = require('../config/database');
+const { DataTypes } = require('sequelize')
+const db = require('../config/database')
 
 const Parcel = db.define('Parcel', {
- id: {
-       type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-
- startLocation: {
-    type: DataTypes.STRING
+  trackingNumber: {
+    type: DataTypes.STRING,
   },
-
+  startLocation: {
+    type: DataTypes.STRING,
+  },
   desLocation: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
-
   customerName: {
-    type: DataTypes.STRING
-  }
-});
+    type: DataTypes.STRING,
+  },
+})
 
-User.sync().then(() => {
-  console.log('Parcel User created');
-});
+Parcel.sync().then(() => {
+  console.log('Table Parcel created')
+})
 
-module.exports = Parcel;
+module.exports = Parcel

@@ -26,9 +26,4 @@ router.patch("/:id", ParcelController.update);
 // @access  Public
 router.delete("/:id", ParcelController.delete);
 
-// @route  POST api/users/signIn
-// @desc   Verify user credentials
-// access  Public
-router.post("/signIn", ParcelController.signIn);
-
 module.exports = router;

@@ -1,69 +1,51 @@
-const Parcel = require("../models/Parcel.js");
+const Parcel = require('../models/Parcel.js')
 
-const ParcelsController = {
+const ParcelController = {
   // @desc Get All Parcels
   all: (req, res) => {
-    Parcel.findAll().then(parcels => res.json(parcels));
+    Parcel.findAll().then((parcels) => res.json(parcels))
   },
 
   // @desc Get A Single Parcel
   find: (req, res) => {
-    Parcel.findOne({ where: { id: req.params.id } }).then(parcel => res.json(parcel));
+    Parcel.findByPk(req.params.id).then((parcel) => res.json(parcel))
   },
 
   // @desc Create A Parcel
   create: (req, res) => {
-    new Parcel({
-      title: req.body.title
-    })
-      .save()
-      .then(parcel => res.json(parcel));
+    Parcel.create({
+      trackingNumber: req.body.trackingNumber,
+      startLocation: req.body.startLocation,
+      desLocation: req.body.desLocation,
+      customerName: req.body.customerName,
+    }).then((parcel) => res.json(parcel))
   },
-
-  update: (req, res) => { 
-
-     Parcel.findOne({ where: { id: req.params.id } });
-    
-    Parcel.update(
-  
-    { title: req.body.title },
-  
-    // Where clause / criteria 
-           { id : req.params.id }     
-  
-   )
-  },
-  delete: (req, res) => { 
-
-    Parcel.findOne({ where: { id: req.params.id } });
-    
-    Parcel.destroy(
-    // Where clause / criteria 
-           { id : req.params.id}     
-  
-   )
-  },
-   
-  
 
   // @desc Update A Parcel
-  /* update: (req, res) => {
-    Parcel.findByIdAndUpdate(
-      req.params.id,
+  update: (req, res) => {
+    Parcel.update(
       {
-        title: req.body.title,
-        completed: req.body.completed
+        trackingNumber: req.body.trackingNumber,
+        startLocation: req.body.startLocation,
+        desLocation: req.body.desLocation,
+        customerName: req.body.customerName,
       },
       {
-        new: true
+        where: {
+          id: req.params.id,
+        },
       }
-    ).then(parcel => res.json(parcel));
-  }, 
+    ).then(() => Parcel.findByPk(req.params.id).then((parcel) => res.json(parcel)))
+  },
 
   // @desc Delete A Parcel
   delete: (req, res) => {
-    Parcel.findByIdAndRemove(req.params.id).then(parcel => res.json(parcel));
-  } */
-};
+    Parcel.findByPk(req.params.id).then((parcel) =>
+      Parcel.destroy({ where: { id: req.params.id } }).then(() =>
+        res.json(parcel)
+      )
+    )
+  },
+}
 
-module.exports = parcelsController;
+module.exports = ParcelController

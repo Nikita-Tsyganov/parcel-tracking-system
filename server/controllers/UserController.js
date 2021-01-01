@@ -1,5 +1,6 @@
 const User = require("../models/User.js");
 const bcrypt = require("bcrypt");
+
 const UserController = {
   // @desc Get All Todos
   all: (req, res) => {
