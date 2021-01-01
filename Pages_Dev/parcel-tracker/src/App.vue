@@ -6,22 +6,12 @@
         <h1 class="title">Item Tracking</h1>
     </head>
   </div>
-  <div>
-    <form>
-	    <label for="TrackingID">Tracking ID</label>
-        <br /> 
-	    <textarea cols="45" rows="2"></textarea>
-        <br /> 
-	    <button type="submit" value="Search">Search</button>
-     </form>
-  </div>
 </template>
 
 <script>
-export default {}
 </script>
 
-<style>
+<style scope>
 .container {
   margin: 0 auto;
   min-height: 100vh;
