@@ -21,6 +21,14 @@ app.use(express.json());
 app.use("/api/tests", require("./routes/api/TestRouter.js"));
 // Parcel API Routes
  app.use("/api/parcels", require("./routes/api/ParcelRouter.js"));
+
+// Employee API Routes
+app.use("/api/employees", require("./routes/api/EmployeeRouter.js"));
+//ParcelHistory API Routes
+app.use("/api/parcelhistory", require("./routes/api/ParcelHistoryRouter.js"));
+//Status API Routes
+//app.use("/api/status", require("./routes/api/StatusRouter.js"));
+
 // User API Routes
 //  app.use("/api/users", require("./routes/api/UserRouter.js"));
 // Todos API Routes
