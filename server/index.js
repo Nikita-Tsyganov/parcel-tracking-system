@@ -27,7 +27,7 @@ app.use("/api/employees", require("./routes/api/EmployeeRouter.js"));
 //ParcelHistory API Routes
 app.use("/api/parcelhistory", require("./routes/api/ParcelHistoryRouter.js"));
 //Status API Routes
-//app.use("/api/status", require("./routes/api/StatusRouter.js"));
+app.use("/api/status", require("./routes/api/StatusRouter.js"));
 
 // User API Routes
 //  app.use("/api/users", require("./routes/api/UserRouter.js"));
