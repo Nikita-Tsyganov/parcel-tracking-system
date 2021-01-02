@@ -15,6 +15,7 @@ const ParcelController = {
   create: (req, res) => {
     Parcel.create({
       trackingNumber: req.body.trackingNumber,
+     //employee_id: req.body.employee_id,
       startLocation: req.body.startLocation,
       desLocation: req.body.desLocation,
       customerName: req.body.customerName,
@@ -26,6 +27,7 @@ const ParcelController = {
     Parcel.update(
       {
         trackingNumber: req.body.trackingNumber,
+       // employee_id: req.body.employee_id,
         startLocation: req.body.startLocation,
         desLocation: req.body.desLocation,
         customerName: req.body.customerName,
