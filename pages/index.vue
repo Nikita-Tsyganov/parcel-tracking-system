@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="tracking-id-input">
+        <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
         <form class="form" @submit.prevent="addTrackingID">
             <label class="mb-2" for="trackingID">Tracking numbers</label>
-            <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
-            <input class="mb-2" type="text" v-model="trackingID" name="trackingID" placeholder="Enter up to 24 items, separated by commas or line breaks">
-            <input type="submit" value="Track" class="btn">
+            <b-form-input class="mb-2" type="text" v-model="trackingID" name="trackingID" placeholder="Enter up to 24 items, separated by commas or line breaks"></b-form-input>
+            <b-button squared variant="primary" class="mb-2" type="submit">Track</b-button>
         </form>
     </div>
   </div>
@@ -36,30 +36,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .container div {
-        border: 1px #ccc solid;
-        flex-basis: 25%; 
-    }
-    .form {
-        display: flex;
-        flex-direction:column;
-        align-items:flex-start;
-        padding: 10%; 
-    }
-    .input[type="text"] {
-        flex: 10; 
-    }
-    .input[type="submit"] {
-        flex: 1;
-        padding: 10px;
-    }
-    .btn {
-        background: #0467C6;
-        color: #FFF;
-        padding: 7px 25px;
-        cursor: pointer;
-    }
-    .btn:hover {
-        background: #FFF;
-    }
 </style>
