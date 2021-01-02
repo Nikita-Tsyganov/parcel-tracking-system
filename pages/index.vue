@@ -2,9 +2,9 @@
   <div class="container">
     <div class="tracking-id-input">
         <form class="form" @submit.prevent="addTrackingID">
-            <label for="trackingID">Tracking numbers</label>
+            <label class="mb-2" for="trackingID">Tracking numbers</label>
             <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
-            <input type="text" v-model="trackingID" name="trackingID" placeholder="Enter up to 24 items, separated by commas or line breaks">
+            <input class="mb-2" type="text" v-model="trackingID" name="trackingID" placeholder="Enter up to 24 items, separated by commas or line breaks">
             <input type="submit" value="Track" class="btn">
         </form>
     </div>
@@ -14,9 +14,9 @@
 <!-- not done -->
 <script>
 export default {
-    name: "TrackingID",
     data() {
         return {
+            trackingID: '',
             title: ''
         }
     },
