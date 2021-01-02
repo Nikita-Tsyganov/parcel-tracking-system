@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
     .header {
         display: flex;
         justify-content:center;
