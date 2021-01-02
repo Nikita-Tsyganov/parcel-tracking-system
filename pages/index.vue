@@ -1,14 +1,17 @@
 <template>
   <div class="container">
-    <header class="header">
-        <h1>Parcel Tracker</h1>
-    </header>
-    <form class="form" @submit.prevent="addTrackingID">
-	  <input type="text" v-model="trackingID" name="trackingID" placeholder="Enter tracking ID">
-	  <input type="submit" value="Search" class="btn">
-     </form>
+    <div class="tracking-id-input">
+        <form class="form" @submit.prevent="addTrackingID">
+            <label for="trackingID">Tracking numbers</label>
+            <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
+            <input type="text" v-model="trackingID" name="trackingID" placeholder="Enter up to 24 items, separated by commas or line breaks">
+            <input type="submit" value="Track" class="btn">
+        </form>
+    </div>
   </div>
 </template>
+
+<!-- not done -->
 <script>
 export default {
     name: "TrackingID",
@@ -33,37 +36,30 @@ export default {
 </script>
 
 <style>
-    .header {
-        display: flex;
-        justify-content:center;
-        background: #732323;
-        color: #FFF;
-        padding: 10px;
-    }
-    .form {
-        display: flex;
-        flex-direction:column;
-        align-items:center;
-        padding: 10%; 
-    }
     .container div {
         border: 1px #ccc solid;
         flex-basis: 25%; 
     }
+    .form {
+        display: flex;
+        flex-direction:column;
+        align-items:flex-start;
+        padding: 10%; 
+    }
     .input[type="text"] {
-        flex: 2;
+        flex: 10; 
+    }
+    .input[type="submit"] {
+        flex: 1;
+        padding: 10px;
     }
     .btn {
-        flex: 1;
-        background: #FF4D4D;
+        background: #0467C6;
         color: #FFF;
-        padding: 7px 20px;
+        padding: 7px 25px;
         cursor: pointer;
     }
     .btn:hover {
         background: #FFF;
-    }
-    .links {
-      padding-top: 15px;
     }
 </style>
