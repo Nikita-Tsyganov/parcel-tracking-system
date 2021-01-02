@@ -1,5 +1,5 @@
 const express = require("express");
-// const cors = require("cors");
+const cors = require("cors");
 
 // DB Config
 const db = require('./config/database');
@@ -11,8 +11,8 @@ db.authenticate()
 
 const app = express();
 
-// // CORS Header Middleware
-// app.use(cors());
+// CORS Header Middleware
+app.use(cors());
 
 // JSON Parser Middleware
 app.use(express.json());
