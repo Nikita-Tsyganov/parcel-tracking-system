@@ -43,4 +43,8 @@ app.use(
 
 const PORT = process.env.PORT
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+app.listen(PORT, () =>
+  console.log(
+    `Server started on port ${PORT}\nClick here to open the server: http://localhost:${PORT}/`
+  )
+)
