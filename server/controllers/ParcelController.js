@@ -1,43 +1,38 @@
-const Parcel = require("../models/Parcel.js");
+const BaseController = require('./BaseController')
+const { Parcel, ParcelHistory, Status } = require('../db.js')
 
-const ParcelsController = {
-  // @desc Get All Parcels
-  all: (req, res) => {
-    Parcel.find().then(parcels => res.json(parcels));
-  },
+class ParcelController extends BaseController {
+  // Constructor
+  constructor() {
+    super(Parcel)
 
-  // @desc Get A Single Parcel
-  find: (req, res) => {
-    Parcel.findById(req.params.id).then(parcel => res.json(parcel));
-  },
-
-  // @desc Create A Parcel
-  create: (req, res) => {
-    new Parcel({
-      title: req.body.title
-    })
-      .save()
-      .then(parcel => res.json(parcel));
-  },
-
-  // @desc Update A Parcel
-  update: (req, res) => {
-    Parcel.findByIdAndUpdate(
-      req.params.id,
-      {
-        title: req.body.title,
-        completed: req.body.completed
-      },
-      {
-        new: true
-      }
-    ).then(parcel => res.json(parcel));
-  },
-
-  // @desc Delete A Parcel
-  delete: (req, res) => {
-    Parcel.findByIdAndRemove(req.params.id).then(parcel => res.json(parcel));
+    // @desc Get All Parcels
+    this.all = (req, res, next) => {
+      super.all(req, res, next, {
+        include: {
+          model: ParcelHistory,
+          as: 'parcelHistories',
+          include: {
+            model: Status,
+            as: 'status',
+          },
+        },
+      })
+    }
+    // @desc Get A Single Parcel
+    this.find = (req, res, next) => {
+      super.find(req, res, next, {
+        include: {
+          model: ParcelHistory,
+          as: 'parcelHistories',
+          include: {
+            model: Status,
+            as: 'status',
+          },
+        },
+      })
+    }
   }
-};
+}
 
-module.exports = parcelsController;
+module.exports = new ParcelController()
