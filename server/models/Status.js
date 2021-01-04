@@ -1,16 +1,29 @@
-const { DataTypes } = require("sequelize");
-const db = require('../config/database');
+'use strict'
 
-const Status = db.define('Status', {
- 
-  status: {
-    type: DataTypes.STRING
-  },
-
-});
-
-Status.sync().then(() => {
-  console.log('Table Status created');
-});
-
-module.exports = Status;
+const { Model } = require('sequelize')
+module.exports = (sequelize, DataTypes) => {
+  class Status extends Model {
+    static associate(models) {
+      Status.hasMany(models.ParcelHistory, {
+        sourceKey: 'id',
+        foreignKey: 'statusId',
+        as: 'parcelHistories',
+      })
+    }
+  }
+  Status.init(
+    {
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Status',
+      tableName: 'Status',
+    }
+  )
+  return Status
+}

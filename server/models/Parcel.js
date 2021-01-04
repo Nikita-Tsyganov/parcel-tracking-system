@@ -1,27 +1,84 @@
-const { DataTypes } = require('sequelize')
-const db = require('../config/database')
+'use strict'
 
-const Parcel = db.define('Parcel', {
- /* employee_id: {
-    type: DataTypes.INTEGER,
-  },*/ 
-  trackingNumber: {
-    type: DataTypes.STRING,
-  },
-  
-  startLocation: {
-    type: DataTypes.STRING,
-  },
-  desLocation: {
-    type: DataTypes.STRING,
-  },
-  customerName: {
-    type: DataTypes.STRING,
-  },
-})
-
-Parcel.sync().then(() => {
-  console.log('Table Parcel created')
-})
-
-module.exports = Parcel
+const { Model } = require('sequelize')
+module.exports = (sequelize, DataTypes) => {
+  class Parcel extends Model {
+    static associate(models) {
+      Parcel.belongsTo(models.Employee, {
+        foreignKey: 'employeeId',
+        as: 'employee',
+      })
+      Parcel.hasMany(models.ParcelHistory, {
+        sourceKey: 'id',
+        foreignKey: 'parcelId',
+        as: 'parcelHistories',
+      })
+    }
+  }
+  Parcel.init(
+    {
+      employeeId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Employee',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+      customerName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      origin: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      destination: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lastUpdate: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return this.parcelHistories.sort((a, b) => {
+            return new Date(b.datetime) - new Date(a.datetime)
+          })[0]
+        },
+        set(value) {
+          throw new Error(
+            `Cannot set the value of "lastUpdate" to ${value} because it is a virtual field.`
+          )
+        },
+      },
+      location: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return this.lastUpdate.location
+        },
+        set(value) {
+          throw new Error(
+            `Cannot set the value of "location" to ${value} because it is a virtual field.`
+          )
+        },
+      },
+      status: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return this.lastUpdate.status.status
+        },
+        set(value) {
+          throw new Error(
+            `Cannot set the value of "status" to ${value} because it is a virtual field.`
+          )
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Parcel',
+      tableName: 'Parcel',
+    }
+  )
+  return Parcel
+}

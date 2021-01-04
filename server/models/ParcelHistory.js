@@ -1,23 +1,53 @@
-const { DataTypes } = require('sequelize')
-const db = require('../config/database')
+'use strict'
 
-const ParcelHistory = db.define('ParcelHistory', {
- parcel_id: {
-    type: DataTypes.INTEGER,
-  },
-  status_id: {
-    type: DataTypes.INTEGER,
-  },
-  location: {
-    type: DataTypes.STRING,
-  },
-  datetime: {
-    type: DataTypes.DATE,
-  },
-})
-
-ParcelHistory.sync().then(() => {
-  console.log('Table ParcelHistory created')
-})
-
-module.exports = ParcelHistory
+const { Model } = require('sequelize')
+module.exports = (sequelize, DataTypes) => {
+  class ParcelHistory extends Model {
+    static associate(models) {
+      ParcelHistory.belongsTo(models.Parcel, {
+        foreignKey: 'parcelId',
+        as: 'parcel',
+      })
+      ParcelHistory.belongsTo(models.Status, {
+        foreignKey: 'statusId',
+        as: 'status',
+      })
+    }
+  }
+  ParcelHistory.init(
+    {
+      parcelId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Parcel',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+      statusId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Status',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      datetime: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'ParcelHistory',
+      tableName: 'ParcelHistory',
+    }
+  )
+  return ParcelHistory
+}
