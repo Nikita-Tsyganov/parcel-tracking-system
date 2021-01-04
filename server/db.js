@@ -22,7 +22,7 @@ const sequelize = new Sequelize(
   }
 )
 
-fs.readdirSync('models')
+fs.readdirSync(__dirname + '/models')
   .filter((file) => {
     return file.indexOf('.') !== 0 && file.slice(-3) === '.js'
   })
