@@ -1,63 +1,35 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">HOOOPPPLLLAAAAAAAA</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+    <div class="container">
+        <div class="tracking-id-input">
+            <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
+            <form class="mt-5">
+                <label class="mb-2" for="trackingID">Tracking numbers</label>
+                <b-form-input class="mb-2" type="text" v-model="trackingID" name="trackingID" placeholder="Enter up to 24 items, separated by commas or line breaks"></b-form-input>
+                <b-button squared variant="primary" class="mb-2" type="submit">Track</b-button>
+            </form>
+        </div>
     </div>
-  </div>
 </template>
 
+<!-- not done -->
 <script>
-export default {}
+import TrackingHistory from "@/pages/TrackingHistory";
+
+export default {
+    data() {
+        return {
+            trackingID: '',
+            title: ''
+        }
+    },
+    methods: {
+        addTrackingID() {
+            const newTrackingID = {
+                title: this.title
+            }
+            //clear field
+            this.title = '';
+        }
+    }
+}
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
