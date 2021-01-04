@@ -10,8 +10,8 @@
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "test": "jest",
-    "server": "node server/index.js",
-    "devserver": "nodemon server/index.js"
+    "server": "node server/server.js",
+    "devserver": "nodemon server/server.js"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
@@ -19,7 +19,11 @@
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
-    "nuxt": "^2.14.6"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "nuxt": "^2.14.6",
+    "sequelize": "^6.3.5"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^5.0.0",
@@ -33,7 +37,9 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.5.0",
+    "nodemon": "^2.0.6",
     "prettier": "^2.1.2",
+    "sequelize-cli": "^6.2.0",
     "vue-jest": "^3.0.4"
   }
 }

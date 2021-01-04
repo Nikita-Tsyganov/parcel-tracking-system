@@ -1,36 +1,46 @@
-const express = require("express");
-// const cors = require("cors");
+const express = require('express')
+const cors = require('cors')
+const { sequelize } = require('./db.js')
 
-// Database
-const db = require('./config/database');
+// Test the DB connection
+sequelize
+  .authenticate()
+  .then(() => console.log('MySQL database connected successfully'))
+  .catch((err) => console.log('Error: ' + err))
 
-// Test DB
-db.authenticate()
-  .then(() => console.log('Database connected...'))
-  .catch(err => console.log('Error: ' + err))
+const app = express()
 
-// const app = express();
+// CORS Header Middleware
+app.use(cors())
 
-// // DB Config
-// const db = require("./config/database.js").mongoURI;
+// JSON Parser Middleware
+app.use(express.json())
 
-// // Connect to Mongo
-// mongoose
-//   .connect(db, { useNewUrlParser: true })
-//   .then(() => console.log("MongoDB Connected..."))
-//   .catch(err => console.log(err));
+// Employee API Routes
+app.use('/api/employees', require('./routes/api/EmployeeRouter.js'))
+// Status API Routes
+app.use('/api/statuses', require('./routes/api/StatusRouter.js'))
+// Parcel API Routes
+app.use('/api/parcels', require('./routes/api/ParcelRouter.js'))
+// ParcelHistory API Routes
+app.use(
+  '/api/parcels-histories',
+  require('./routes/api/ParcelHistoryRouter.js')
+)
 
-// // CORS Header Middleware
-// app.use(cors());
+// // UNCOMMENT FOR PURGING THE DATABASE
+// sequelize.query(
+//   `SELECT table_name FROM information_schema.tables
+//   WHERE table_schema = 'cf5';`
+// ).then(([results]) => console.log(results))
+// sequelize.query(
+//   `DROP TABLE IF EXISTS SequelizeMeta,SequelizeMetaBackup,Test,ParcelHistory,Parcel,Employee,Status;`
+// ).then(([results, metadata]) => console.log(results, metadata))
+// sequelize.query(
+//   `SELECT table_name FROM information_schema.tables
+//   WHERE table_schema = 'cf5';`
+// ).then(([results]) => console.log(results))
 
-// // Body Parser Middleware
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+const PORT = process.env.PORT
 
-// // Todos API Routes
-// app.use("/api/todos", require("./routes/api/TodosRouter.js"));
-// app.use("/api/users", require("./routes/api/UserRouter.js"));
-
-// const PORT = /* process.env.PORT ||  */ 5000;
-
-// app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
