@@ -14,7 +14,7 @@
     "devserver": "nodemon server/server.js"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/pwa": "^3.0.2",
     "bootstrap": "^5.0.0-beta1",
     "bootstrap-vue": "^2.21.2",
