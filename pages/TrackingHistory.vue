@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="delivery-status">
       <h5>Delivery status</h5>
       <!-- need responsiveness -->
