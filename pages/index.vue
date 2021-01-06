@@ -2,10 +2,10 @@
   <div class="container">
     <div class="tracking-id-input">
       <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
-      <form class="mt-5">
+      <form>
         <label class="mb-2" for="trackingID">Tracking numbers</label>
         <b-form-input
-          class="mb-2"
+          class="mb-4"
           type="text"
           v-model="trackingID"
           name="trackingID"
@@ -19,7 +19,6 @@
   </div>
 </template>
 
-<!-- not done -->
 <script>
 import TrackingHistory from '@/pages/TrackingHistory'
 
@@ -41,3 +40,6 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+</style>
