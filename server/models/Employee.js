@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'employeeId',
         as: 'parcels',
       })
-      console.log(`Employee has many ${models.Parcel.name}`)
     }
   }
   Employee.init(
