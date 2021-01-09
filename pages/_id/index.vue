@@ -2,35 +2,35 @@
   <div>
     <div class="delivery-progress">
       <h5>Delivery progress</h5>
-      <!-- <b-table striped hover fixed stacked="sm" :items="items" :fields="fields" primary-key="date" ></b-table> <ParcelHistory v-bind:parcelHistory="parcelHistory" /> 
-        -->
-      <deliveryProgress/>
-      <parcel/>
+      <ParcelHistory
+        :key="parcelHistory.id"
+        :parcelHistory="parcelHistory"
+        v-for="parcelHistory in parcel.parcelHistories"
+        class="mb-2"
+      />
     </div>
   </div>
-</template>>
+</template>
 
 <script>
-import axios from 'axios'
-import deliveryProgress from '@/components/Progress'
+import ParcelHistory from '~/components/ParcelHistory.vue'
 
 export default {
   components: {
-    deliveryProgress,
+    ParcelHistory,
   },
   data() {
     return {
-      parcels: [],
+      parcel: {},
     }
   },
   created() {
-    const parcel = axios.get('parcels').then((parcel) => console.log(parcel))
+    this.$axios
+      .get(`parcels/${this.$route.params.id}`)
+      .then((result) => (this.parcel = result.data))
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.b-table {
-  width: 35%;
-}
 </style>
