@@ -5,7 +5,7 @@
       <form>
         <label class="mb-2" for="trackingID">Tracking numbers</label>
         <b-form-input class="mb-2" type="text" v-bind="trackingID" name="trackingID" placeholder="Enter up to 24 items, separated by commas or line breaks" ></b-form-input>
-        <b-button squared variant="primary" class="mb-2" type="submit" href="/TrackingHistory">Track</b-button>
+        <b-button squared variant="primary" class="mb-2" type="submit" href="_id/">Track</b-button>
       </form>
     </div>
   </div>

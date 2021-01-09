@@ -1,27 +1,36 @@
 <template>
-    <div>
-        {{trackingID}}
+  <div>
+    <div class="delivery-progress">
+      <h5>Delivery progress</h5>
+      <!-- <b-table striped hover fixed stacked="sm" :items="items" :fields="fields" primary-key="date" ></b-table> <ParcelHistory v-bind:parcelHistory="parcelHistory" /> 
+        -->
+      <deliveryProgress/>
+      <parcel/>
     </div>
-</template>
+  </div>
+</template>>
 
 <script>
-import trackingID from '@/pages/index';
+import axios from 'axios'
+import deliveryProgress from '@/components/Progress'
 
 export default {
-    data() {
-        return {
-            trackingID,
-            progress: {}
-        };
-    },
-    //created() {
-    //    const parcel = axios
-    //    .get('parcels/${this.$route.params.id}')
-    //    .then((parcel) => console.log(parcel))
-    //}
+  components: {
+    deliveryProgress,
+  },
+  data() {
+    return {
+      parcels: [],
+    }
+  },
+  created() {
+    const parcel = axios.get('parcels').then((parcel) => console.log(parcel))
+  },
 }
-
 </script>
 
-<style>
+<style lang="scss" scoped>
+.b-table {
+  width: 35%;
+}
 </style>
