@@ -3,9 +3,18 @@
     <div class="tracking-id-input">
       <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
       <form>
-        <label class="mb-2" for="trackingID">Tracking numbers</label>
-        <b-form-input class="mb-2" type="text" v-bind="trackingID" name="trackingID" placeholder="Enter up to 24 items, separated by commas or line breaks" ></b-form-input>
-        <b-button squared variant="primary" class="mb-2" type="submit" href="_id/">Track</b-button>
+        <label class="mb-2" for="trackingNumber">Tracking numbers</label>
+        <b-form-input
+          class="mb-3"
+          id="trackingNumber"
+          name="trackingNumber"
+          type="text"
+          v-model="trackingNumber"
+          placeholder="Enter up to 24 items, separated by commas or line breaks"
+        ></b-form-input>
+        <b-button squared variant="primary" @click.prevent="track()"
+          >Track</b-button
+        >
       </form>
     </div>
   </div>
@@ -15,11 +24,13 @@
 export default {
   data() {
     return {
-      trackingID: '',
+      trackingNumber: '',
     }
   },
   methods: {
-
+    track() {
+      this.$router.push(`/${this.trackingNumber}`)
+    },
   },
 }
 </script>
