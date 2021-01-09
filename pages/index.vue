@@ -3,15 +3,16 @@
     <div class="tracking-id-input">
       <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
       <form>
-        <label class="mb-2" for="trackingID">Tracking numbers</label>
+        <label class="mb-2" for="trackingNumber">Tracking numbers</label>
         <b-form-input
-          class="mb-4"
+          class="mb-3"
+          id="trackingNumber"
+          name="trackingNumber"
           type="text"
-          v-model="trackingID"
-          name="trackingID"
+          v-model="trackingNumber"
           placeholder="Enter up to 24 items, separated by commas or line breaks"
         ></b-form-input>
-        <b-button squared variant="primary" class="mb-2" type="submit"
+        <b-button squared variant="primary" @click.prevent="track()"
           >Track</b-button
         >
       </form>
@@ -20,22 +21,15 @@
 </template>
 
 <script>
-import TrackingHistory from '@/pages/TrackingHistory'
-
 export default {
   data() {
     return {
-      trackingID: '',
-      title: '',
+      trackingNumber: '',
     }
   },
   methods: {
-    addTrackingID() {
-      const newTrackingID = {
-        title: this.title,
-      }
-      //clear field
-      this.title = ''
+    track() {
+      this.$router.push(`/${this.trackingNumber}`)
     },
   },
 }
