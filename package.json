@@ -21,6 +21,7 @@
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "moment": "^2.29.1",
     "mysql2": "^2.2.5",
     "nuxt": "^2.14.12",
     "sequelize": "^6.3.5"
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/moment": "^1.6.1",
     "@vue/test-utils": "^1.1.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
