@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="tracking-id-input">
-      <!-- @submit, v-model, etc. for for js functionality, yet to be completed -->
       <form>
         <label class="mb-2" for="trackingNumber">Tracking numbers</label>
         <b-form-input
@@ -11,6 +10,7 @@
           type="text"
           v-model="trackingNumber"
           placeholder="Enter up to 24 items, separated by commas or line breaks"
+          @keypress.enter="track()"
         ></b-form-input>
         <b-button squared variant="primary" @click.prevent="track()"
           >Track</b-button
@@ -35,5 +35,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
