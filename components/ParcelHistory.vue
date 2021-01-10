@@ -20,3 +20,5 @@ export default {
   props: ['parcelHistory'],
 }
 </script>
+
+<style lang="scss" scoped></style>
