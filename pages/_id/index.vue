@@ -26,8 +26,8 @@ export default {
   },
   created() {
     this.$axios
-      .get(`parcels/${this.$route.params.id}`)
-      .then((result) => (this.parcel = result.data))
+      .$get(`parcels/${this.$route.params.id}`)
+      .then((parcel) => (this.parcel = parcel))
   },
 }
 </script>
