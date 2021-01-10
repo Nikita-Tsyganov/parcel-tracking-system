@@ -2,13 +2,13 @@
   <b-container class="parcel-history">
     <b-row cols="3">
       <b-col>
-        <p>{{ parseDate(parcelHistories.datetime) }}</p>
+        <p>{{ parseDate(parcelHistory.datetime) }}</p>
       </b-col>
       <b-col>
-        <p>{{ parcelHistories.dateTime }}</p>
+        <p>{{ parcelHistory.datetime }}</p>
       </b-col>
       <b-col>
-        <p>{{ parcelHistories.status.status }}</p>
+        <p>{{ parcelHistory.status.status }}</p>
       </b-col>
     </b-row>
   </b-container>
