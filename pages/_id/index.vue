@@ -1,14 +1,25 @@
 <template>
   <div>
-    <div class="delivery-progress">
-      <h5>Delivery progress</h5>
-      <ParcelHistory
-        :key="parcelHistory.id"
-        :parcelHistory="parcelHistory"
-        v-for="parcelHistory in parcel.parcelHistories"
-        class="mb-2"
-      />
-    </div>
+    <h5 class="mb-4">Delivery progress</h5>
+    <container class="delivery-progress">
+      <b-list-group>
+        <b-list-group-item>
+          <b-row align-h="between">
+            <b-col cols="1">Date</b-col>
+            <b-col cols="1">Time</b-col>
+            <b-col cols="3">Status</b-col>
+          </b-row>
+        </b-list-group-item>
+        <b-list-group-item class="mt-2">
+          <ParcelHistory
+            class="mb-2"
+            :key="parcelHistory.id"
+            :parcelHistory="parcelHistory"
+            v-for="parcelHistory in parcel.parcelHistories"
+          />
+        </b-list-group-item>
+      </b-list-group>
+    </container>
   </div>
 </template>
 
