@@ -16,8 +16,8 @@
         <b-list-group-item class="mt-2">
           <ParcelHistory
             class="mb-2"
-            :key="parcelHistory.id"
             :parcelHistory="parcelHistory"
+            :key="parcelHistory.id"
             v-for="parcelHistory in parcel.parcelHistories"
           />
         </b-list-group-item>
