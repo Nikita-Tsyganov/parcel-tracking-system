@@ -1,13 +1,16 @@
 <template>
   <div>
     <h5 class="mb-4">Delivery progress</h5>
+    <h6>
+      Information updated: {{ $moment(this.parcel.datetime).format('MMM. D') }}
+    </h6>
     <container class="delivery-progress">
       <b-list-group>
         <b-list-group-item>
-          <b-row align-h="between">
-            <b-col cols="1">Date</b-col>
-            <b-col cols="1">Time</b-col>
-            <b-col cols="3">Status</b-col>
+          <b-row align-h="around">
+            <b-col cols=1>Date</b-col>
+            <b-col cols=1>Time</b-col>
+            <b-col cols=1>Status</b-col>
           </b-row>
         </b-list-group-item>
         <b-list-group-item class="mt-2">
@@ -25,7 +28,6 @@
 
 <script>
 import ParcelHistory from '~/components/ParcelHistory.vue'
-
 export default {
   components: {
     ParcelHistory,
