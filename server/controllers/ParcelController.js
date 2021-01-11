@@ -17,6 +17,7 @@ class ParcelController extends BaseController {
             as: 'status',
           },
         },
+        order: [['id'], ['parcelHistories', 'datetime', 'DESC']],
       })
     }
     // @desc Get A Single Parcel
@@ -30,6 +31,7 @@ class ParcelController extends BaseController {
             as: 'status',
           },
         },
+        order: [['id'], ['parcelHistories', 'datetime', 'DESC']],
       })
     }
   }

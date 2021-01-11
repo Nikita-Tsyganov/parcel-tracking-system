@@ -1,6 +1,7 @@
 'use strict'
 
 const { Model } = require('sequelize')
+
 module.exports = (sequelize, DataTypes) => {
   class Parcel extends Model {
     static associate(models) {
@@ -41,9 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       lastUpdate: {
         type: DataTypes.VIRTUAL,
         get() {
-          return this.parcelHistories.sort((a, b) => {
-            return new Date(b.datetime) - new Date(a.datetime)
-          })[0]
+          return this.parcelHistories[0]
         },
         set(value) {
           throw new Error(
