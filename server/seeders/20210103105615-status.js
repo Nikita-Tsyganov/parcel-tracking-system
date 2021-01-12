@@ -4,7 +4,7 @@ const { Status } = require('../db.js')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const data = [
+    const statuses = [
       {
         status: 'Electronic information submitted by shipper',
       },
@@ -33,11 +33,12 @@ module.exports = {
         status: 'Delivered',
       },
     ]
-    await Promise.all(
-      data.map(async (record) => {
-        await Status.create(record)
-      })
-    )
+    for (const status of statuses) {
+      await Status.create(status)
+      // Force waiting before creating the next record
+      // in order to have different timestamps
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
   },
 
   down: async (queryInterface, Sequelize) => {

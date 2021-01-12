@@ -4,7 +4,7 @@ const { ParcelHistory } = require('../db.js')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const data = [
+    const parcelHistories = [
       {
         parcelId: 1,
         statusId: 3,
@@ -42,11 +42,12 @@ module.exports = {
         datetime: Sequelize.fn('NOW'),
       },
     ]
-    await Promise.all(
-      data.map(async (record) => {
-        await ParcelHistory.create(record)
-      })
-    )
+    for (const parcelHistory of parcelHistories) {
+      await ParcelHistory.create(parcelHistory)
+      // Force waiting before creating the next record
+      // in order to have different timestamps
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
   },
 
   down: async (queryInterface, Sequelize) => {

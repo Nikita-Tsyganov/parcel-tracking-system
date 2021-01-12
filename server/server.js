@@ -29,17 +29,23 @@ app.use(
 )
 
 // // UNCOMMENT FOR PURGING THE DATABASE
-// sequelize.query(
-//   `SELECT table_name FROM information_schema.tables
+// sequelize
+//   .query(
+//     `SELECT table_name FROM information_schema.tables
 //   WHERE table_schema = 'cf5';`
-// ).then(([results]) => console.log(results))
-// sequelize.query(
-//   `DROP TABLE IF EXISTS SequelizeMeta,SequelizeMetaBackup,Test,ParcelHistory,Parcel,Employee,Status;`
-// ).then(([results, metadata]) => console.log(results, metadata))
-// sequelize.query(
-//   `SELECT table_name FROM information_schema.tables
+//   )
+//   .then(([results]) => console.log(results))
+// sequelize
+//   .query(
+//     `DROP TABLE IF EXISTS SequelizeMeta,SequelizeMetaBackup,Test,ParcelHistory,Parcel,Employee,Status;`
+//   )
+//   .then(([results, metadata]) => console.log(results, metadata))
+// sequelize
+//   .query(
+//     `SELECT table_name FROM information_schema.tables
 //   WHERE table_schema = 'cf5';`
-// ).then(([results]) => console.log(results))
+//   )
+//   .then(([results]) => console.log(results))
 
 const PORT = process.env.PORT || 5000
 

@@ -1,6 +1,7 @@
 'use strict'
 
 const { Model } = require('sequelize')
+
 module.exports = (sequelize, DataTypes) => {
   class ParcelHistory extends Model {
     static associate(models) {
@@ -23,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'DELETE',
       },
       statusId: {
         type: DataTypes.INTEGER,
