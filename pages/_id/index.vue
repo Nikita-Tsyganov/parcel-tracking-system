@@ -8,18 +8,24 @@
       <b-list-group>
         <b-list-group-item>
           <b-row align-h="around">
-            <b-col cols=1>Date</b-col>
-            <b-col cols=1>Time</b-col>
-            <b-col cols=1>Status</b-col>
+            <b-col cols="1">Date</b-col>
+            <b-col cols="1">Time</b-col>
+            <b-col cols="1">Status</b-col>
           </b-row>
         </b-list-group-item>
         <b-list-group-item class="mt-2">
-          <ParcelHistory
-            class="mb-2"
-            :parcelHistory="parcelHistory"
-            :key="parcelHistory.id"
-            v-for="parcelHistory in parcel.parcelHistories"
-          />
+          <b-row align-h="around">
+            <b-col cols="2">{{
+              $moment(this.parcel.datetime).format('MMM. D')
+            }}</b-col>
+            <b-col>
+              <ParcelHistory
+              class="mb-2"
+              :parcelHistory="parcelHistory"
+              :key="parcelHistory.id"
+              v-for="parcelHistory in parcel.parcelHistories"
+            /></b-col>
+          </b-row>
         </b-list-group-item>
       </b-list-group>
     </container>
