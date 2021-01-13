@@ -27,9 +27,24 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      customerName: {
+      customerFirstName: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      customerLastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      customerName: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return `${this.customerFirstName} ${this.customerLastName}`
+        },
+        set(value) {
+          throw new Error(
+            `Cannot set the value of "customerName" to ${value} because it is a virtual field.`
+          )
+        },
       },
       origin: {
         type: DataTypes.STRING,
