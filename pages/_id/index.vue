@@ -1,81 +1,45 @@
 <template>
-  <div>
+  <div class="container">
     <h5 class="mb-4">Delivery progress</h5>
     <h6>
-      Information updated: {{ $moment(this.parcel.datetime).format('MMM. D') }}
+      Information updated:
+      {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
     </h6>
-    <container class="delivery-progress">
-      <b-list-group>
-        <b-list-group-item>
-          <b-row align-h="around">
-            <b-col cols="1">Date</b-col>
-            <b-col cols="1">Time</b-col>
-            <b-col cols="1">Status</b-col>
-          </b-row>
-        </b-list-group-item>
-        <b-list-group-item class="mt-2">
-          <b-row align-h="around">
-            <b-col cols="2">
-              {{ $moment(parcelData.date).format('MMM. D') }}
-            </b-col>
-            <b-col>
-              <ParcelHistory
-                class="mb-2"
-                :parcelHistory="parcelHistory"
-                :key="parcelHistory.id"
-                v-for="parcelHistory in parcelData"
-            /></b-col>
-          </b-row>
-        </b-list-group-item>
-      </b-list-group>
-    </container>
+    <b-table class="border-bottom" borderless :items="parcelDeliveryProgress">
+      <template #cell(progress)="data">
+        {{ data.value.status }}<br />{{ data.value.location }}
+      </template>
+    </b-table>
   </div>
 </template>
 
 <script>
-import ParcelHistory from '~/components/ParcelHistory.vue'
-
 export default {
-  components: {
-    ParcelHistory,
-  },
-  data() {
-    return {
-      parcel: {},
-      parcelData: [],
-    }
-  },
-  created() {
-    this.$axios.$get(`parcels/${this.$route.params.id}`).then((parcel) => {
-      this.parcel = parcel
+  async asyncData({ $axios, $moment, params }) {
+    const parcel = await $axios.$get(`parcels/${params.id}`)
+    const parcelHistories = parcel.parcelHistories
+    const parcelDeliveryProgress = []
+    let previousDate = ''
 
-      const parcelHistories = parcel.parcelHistories
-
-      for (let i = 0; i < parcelHistories.length; i++) {
-        const date = parcelHistories[i].datetime //this.$moment(parcelHistories[i].datetime).format('MMM. D')
-        const dateData = {
-          date,
-          parcelHistories: [],
-        }
-
-        for (let k = i; k < parcelHistories.length; k++) {
-          if (
-            date === parcelHistories[k].datetime //this.$moment(parcelHistories[k].datetime).format('MMM. D')
-          ) {
-            dateData.parcelHistories.push(parcelHistories[k])
-
-            if (k !== parcelHistories.length - 1) {
-              continue
-            }
-          }
-
-          i = k
-          break
-        }
-
-        this.parcelData.push(dateData)
+    for (let i = 0; i < parcelHistories.length; i++) {
+      const date = $moment(parcelHistories[i].datetime).format('MMM. D')
+      const time = $moment(parcelHistories[i].datetime).format('h:mm a')
+      const progress = {
+        status: parcelHistories[i].status.status,
+        location: parcelHistories[i].location,
       }
-    })
+      const parcelHistoryRow = {
+        date: date !== previousDate ? date : '',
+        time,
+        progress,
+        _rowVariant: date !== previousDate ? 'date border-top' : '',
+      }
+
+      previousDate = date
+
+      parcelDeliveryProgress.push(parcelHistoryRow)
+    }
+    return { parcel, parcelDeliveryProgress }
   },
 }
 </script>
