@@ -14,14 +14,17 @@
           </b-row>
         </b-list-group-item>
         <b-list-group-item class="mt-2">
-          <b-row>
+          <b-row align-h="around">
+            <b-col cols="2">{{
+              $moment(this.parcel.datetime).format('MMM. D')
+            }}</b-col>
             <b-col>
               <ParcelHistory
                 class="mb-2"
                 :parcelHistory="parcelHistory"
                 :key="parcelHistory.id"
-                v-for="parcelHistory in this.parcelHistories"
-              />
+                v-for="parcelHistory in parcel.parcelHistories"
+            /></b-col>
             </b-col>
           </b-row>
         </b-list-group-item>
