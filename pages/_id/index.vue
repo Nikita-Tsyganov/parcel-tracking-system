@@ -1,33 +1,45 @@
 <template>
-  <div>
-    <div class="delivery-progress">
-      <h5>Delivery progress</h5>
-      <ParcelHistory
-        :key="parcelHistory.id"
-        :parcelHistory="parcelHistory"
-        v-for="parcelHistory in parcel.parcelHistories"
-        class="mb-2"
-      />
-    </div>
+  <div class="container">
+    <h5 class="mb-4">Delivery progress</h5>
+    <h6>
+      Information updated:
+      {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
+    </h6>
+    <b-table class="border-bottom" borderless :items="parcelDeliveryProgress">
+      <template #cell(progress)="data">
+        {{ data.value.status }}<br />{{ data.value.location }}
+      </template>
+    </b-table>
   </div>
 </template>
 
 <script>
-import ParcelHistory from '~/components/ParcelHistory.vue'
-
 export default {
-  components: {
-    ParcelHistory,
-  },
-  data() {
-    return {
-      parcel: {},
+  async asyncData({ $axios, $moment, params }) {
+    const parcel = await $axios.$get(`parcels/${params.id}`)
+    const parcelHistories = parcel.parcelHistories
+    const parcelDeliveryProgress = []
+    let previousDate = ''
+
+    for (let i = 0; i < parcelHistories.length; i++) {
+      const date = $moment(parcelHistories[i].datetime).format('MMM. D')
+      const time = $moment(parcelHistories[i].datetime).format('h:mm a')
+      const progress = {
+        status: parcelHistories[i].status.status,
+        location: parcelHistories[i].location,
+      }
+      const parcelHistoryRow = {
+        date: date !== previousDate ? date : '',
+        time,
+        progress,
+        _rowVariant: date !== previousDate ? 'date border-top' : '',
+      }
+
+      previousDate = date
+
+      parcelDeliveryProgress.push(parcelHistoryRow)
     }
-  },
-  created() {
-    this.$axios
-      .$get(`parcels/${this.$route.params.id}`)
-      .then((parcel) => (this.parcel = parcel))
+    return { parcel, parcelDeliveryProgress }
   },
 }
 </script>
