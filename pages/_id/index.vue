@@ -15,17 +15,16 @@
         </b-list-group-item>
         <b-list-group-item class="mt-2">
           <b-row align-h="around">
-            <b-col cols="2">{{
-              $moment(this.parcel.datetime).format('MMM. D')
-            }}</b-col>
+            <b-col cols="2">
+              {{ $moment(parcelData.date).format('MMM. D') }}
+            </b-col>
             <b-col>
               <ParcelHistory
                 class="mb-2"
                 :parcelHistory="parcelHistory"
                 :key="parcelHistory.id"
-                v-for="parcelHistory in parcel.parcelHistories"
+                v-for="parcelHistory in parcelData"
             /></b-col>
-            </b-col>
           </b-row>
         </b-list-group-item>
       </b-list-group>
@@ -53,7 +52,7 @@ export default {
       const parcelHistories = parcel.parcelHistories
 
       for (let i = 0; i < parcelHistories.length; i++) {
-        const date = this.$moment(parcelHistories[i].datetime).format('MMM. D')
+        const date = parcelHistories[i].datetime //this.$moment(parcelHistories[i].datetime).format('MMM. D')
         const dateData = {
           date,
           parcelHistories: [],
@@ -61,7 +60,7 @@ export default {
 
         for (let k = i; k < parcelHistories.length; k++) {
           if (
-            date === this.$moment(parcelHistories[k].datetime).format('MMM. D')
+            date === parcelHistories[k].datetime //this.$moment(parcelHistories[k].datetime).format('MMM. D')
           ) {
             dateData.parcelHistories.push(parcelHistories[k])
 

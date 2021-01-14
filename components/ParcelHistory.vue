@@ -2,10 +2,10 @@
   <div>
     <b-row class="mb-2" align-h="around">
       <b-col class="mb-2" cols=2>
-        {{ $moment(parcelHistory.datetime).format('h:mm a') }}
+        {{ $moment(parcelHistory.date).format('h:mm a') }}
       </b-col>
       <b-col class="mb-2" cols=2>
-        {{ parcelHistory.status.status }}
+        {{ parcelHistory.parcelHistories[0].status.status }}
       </b-col>
     </b-row>
   </div>
