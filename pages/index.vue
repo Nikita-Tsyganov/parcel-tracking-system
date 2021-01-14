@@ -10,7 +10,7 @@
           type="text"
           v-model="trackingNumber"
           placeholder="Enter up to 24 items, separated by commas or line breaks"
-          @keypress.enter="track()"
+          @keypress.enter.prevent="track()"
         ></b-form-input>
         <b-button squared variant="primary" @click.prevent="track()"
           >Track</b-button

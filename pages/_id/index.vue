@@ -1,33 +1,58 @@
 <template>
-  <div>
-    <div class="delivery-progress">
-      <h5>Delivery progress</h5>
-      <ParcelHistory
-        :key="parcelHistory.id"
-        :parcelHistory="parcelHistory"
-        v-for="parcelHistory in parcel.parcelHistories"
-        class="mb-2"
-      />
-    </div>
+  <div class="container">
+    <h5 class="mb-4">Delivery progress</h5>
+    <h6>
+      Information updated:
+      {{ $moment(this.parcelLastUpdate.datetime).format('MMM. D') }}
+    </h6>
+    <b-table class="border-bottom" borderless :items="parcelDeliveryProgress">
+      <template #cell(progress)="data">
+        {{ data.value.status }}<br />{{ data.value.location }}
+      </template>
+    </b-table>
   </div>
 </template>
 
 <script>
-import ParcelHistory from '~/components/ParcelHistory.vue'
+import { mapActions } from 'vuex'
 
 export default {
-  components: {
-    ParcelHistory,
-  },
   data() {
     return {
       parcel: {},
+      parcelLastUpdate: {},
+      parcelDeliveryProgress: [],
     }
   },
-  created() {
-    this.$axios
-      .$get(`parcels/${this.$route.params.id}`)
-      .then((parcel) => (this.parcel = parcel))
+  methods: {
+    ...mapActions({
+      findParcel: 'parcels/find',
+    }),
+  },
+  async fetch() {
+    this.parcel = await this.findParcel(this.$route.params.id)
+    this.parcelLastUpdate = this.parcel.lastUpdate
+    const parcelHistories = this.parcel.parcelHistories
+    let previousDate = ''
+
+    for (let i = 0; i < parcelHistories.length; i++) {
+      const date = this.$moment(parcelHistories[i].datetime).format('MMM. D')
+      const time = this.$moment(parcelHistories[i].datetime).format('h:mm a')
+      const progress = {
+        status: parcelHistories[i].status.status,
+        location: parcelHistories[i].location,
+      }
+      const parcelHistoryRow = {
+        date: date !== previousDate ? date : '',
+        time,
+        progress,
+        _rowVariant: date !== previousDate ? 'date border-top' : '',
+      }
+
+      previousDate = date
+
+      this.parcelDeliveryProgress.push(parcelHistoryRow)
+    }
   },
 }
 </script>
