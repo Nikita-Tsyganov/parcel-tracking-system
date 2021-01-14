@@ -33,7 +33,7 @@ export const mutations = {
 export const actions = {
   async all({ commit }) {
     let allRecords = await parcelAPI.all()
-    commit('SET', allRecords)
+    commit('ALL', allRecords)
   },
   async find({ commit }, id) {
     let foundRecord = await parcelAPI.find(id)

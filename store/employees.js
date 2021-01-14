@@ -33,7 +33,7 @@ export const mutations = {
 export const actions = {
   async all({ commit }) {
     let allRecords = await employeeAPI.all()
-    commit('SET', allRecords)
+    commit('ALL', allRecords)
   },
   async create({ commit }, record) {
     let createdRecord = await employeeAPI.create(record)
