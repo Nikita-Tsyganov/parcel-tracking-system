@@ -10,7 +10,6 @@
         {{ data.value.status }}<br />{{ data.value.location }}
       </template>
     </b-table>
-
     <b-button squared variant="primary" href="/">
       Track another item
     </b-button>
