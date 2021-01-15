@@ -12,7 +12,7 @@
           placeholder="Enter up to 24 items, separated by commas or line breaks"
           @keypress.enter.prevent="track()"
         ></b-form-input>
-        <b-button squared variant="primary" @click.prevent="track()"
+        <b-button squared variant="primary" href="/"
           >Track</b-button
         >
       </form>
