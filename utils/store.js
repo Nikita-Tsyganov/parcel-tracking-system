@@ -29,6 +29,7 @@ export const baseActions = (model) => {
     async all({ commit }) {
       let allRecords = await this[model].all()
       commit('ALL', allRecords)
+      return allRecords
     },
     async find({ commit }, id) {
       let foundRecord = await this[model].find(id)

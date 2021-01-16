@@ -63,15 +63,14 @@ export default {
   computed: {
     parcelDeliveryProgress() {
       const parcelDeliveryProgress = []
-      const parcelHistories = this.parcel.parcelHistories
       let previousDate = ''
 
-      for (let i = 0; i < parcelHistories.length; i++) {
-        const date = this.$moment(parcelHistories[i].datetime).format('MMM. D')
-        const time = this.$moment(parcelHistories[i].datetime).format('h:mm a')
+      for (const parcelHistory of this.parcel.parcelHistories) {
+        const date = this.$moment(parcelHistory.datetime).format('MMM. D')
+        const time = this.$moment(parcelHistory.datetime).format('h:mm a')
         const progress = {
-          status: parcelHistories[i].status.status,
-          location: parcelHistories[i].location,
+          status: parcelHistory.status.status,
+          location: parcelHistory.location,
         }
         const parcelHistoryRow = {
           date: date !== previousDate ? date : '',
