@@ -1,15 +1,56 @@
 <template>
   <div class="container">
-    <h5 class="mb-4">Delivery progress</h5>
-    <h6>
+    <h3 class="mb-4">Delivery status</h3>
+    <p class="h5 font-weight-bold mb-1">
+      {{ this.parcel.status }}
+    </p>
+    <b-link class="text-decoration-none mb-4" v-b-toggle.details
+      >Delivery details
+      <span class="when-closed"><fa :icon="['fas', 'chevron-down']" /></span>
+      <span class="when-open"><fa :icon="['fas', 'chevron-up']" /></span>
+    </b-link>
+    <b-collapse class="mt-4" id="details">
+      <p class="my-0">
+        <span class="font-weight-bold">Shipping service:</span>
+        Team 5 Express
+      </p>
+      <p class="my-0">
+        <span class="font-weight-bold">Tracking number:</span>
+        {{ this.parcel.id }}
+      </p>
+      <p class="my-0">
+        <span class="font-weight-bold">Delivery standard:</span>
+        {{
+          $moment(this.parcel.createdAt).add(14, 'days').format('MMM. D, YYYY')
+        }}
+      </p>
+      <p>{{ this.parcel.statusid }}</p>
+    </b-collapse>
+    <template>
+      <b-progress
+        variant="success"
+        class="w-50 my-4"
+        :value="this.parcel.lastUpdate.statusId"
+        max="9"
+      ></b-progress>
+    </template>
+    <h3 class="mb-4">Delivery progress</h3>
+    <p class="mb-0">
       Information updated:
       {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
-    </h6>
-    <b-table class="border-bottom" borderless :items="parcelDeliveryProgress">
+    </p>
+    <b-table
+      class="border-bottom mb-4"
+      borderless
+      :items="parcelDeliveryProgress"
+    >
       <template #cell(progress)="data">
         {{ data.value.status }}<br />{{ data.value.location }}
       </template>
     </b-table>
+    <b-button class="px-4 py-2 mt-4" squared variant="primary" to="/"
+      >Track another item</b-button
+    >
   </div>
 </template>
 
@@ -49,4 +90,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.when-closed,
+.when-open {
+  display: none;
+}
+.collapsed > .when-closed,
+.not-collapsed > .when-open {
+  display: inline-block;
+}
+</style>
