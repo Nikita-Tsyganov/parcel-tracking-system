@@ -16,7 +16,19 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.2px;
+}
+
+h3 {
+  letter-spacing: 0.3px;
+}
+
+p, td, textarea, input[type='password'], input[type='text'] {
   letter-spacing: 0.5px;
+}
+
+body, .table {
+  color: #333;
 }
 
 body,
@@ -38,7 +50,6 @@ h1,
 
 th {
   font-weight: 500;
-  letter-spacing: 0.2px;
 }
 
 .font-weight-light {
