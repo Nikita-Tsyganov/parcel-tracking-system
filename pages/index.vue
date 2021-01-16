@@ -2,19 +2,31 @@
   <div class="container">
     <div class="tracking-id-input">
       <form>
-        <label class="mb-2" for="trackingNumber">Tracking numbers</label>
+        <label class="mb-1 font-weight-bold" for="tracking-number-input"
+          >Tracking numbers</label
+        >
         <b-form-input
-          class="mb-3"
-          id="trackingNumber"
+          class="rounded-1 py-2"
+          id="tracking-number-input"
           name="trackingNumber"
           type="text"
+          aria-describedby="tracking-number-input-live-feedback"
           v-model="trackingNumber"
+          :state="this.trackingNumber === '' ? false : null"
           placeholder="Enter up to 24 items, separated by commas or line breaks"
-          @keypress.enter.prevent="track()"
+          @keypress.enter.prevent="track"
+          @blur="trackingNumber = trackingNumber === null ? '' : trackingNumber"
         ></b-form-input>
-        <b-button squared variant="primary" @click.prevent="track()">
-          Track
-        </b-button>
+        <b-form-invalid-feedback id="tracking-number-input-live-feedback">
+          Enter a valid tracking, delivery notice card, or reference number.
+        </b-form-invalid-feedback>
+        <b-button
+          class="px-4 py-2 mt-4"
+          squared
+          variant="primary"
+          @click.prevent="track"
+          >Track</b-button
+        >
       </form>
     </div>
   </div>
@@ -24,12 +36,14 @@
 export default {
   data() {
     return {
-      trackingNumber: '',
+      trackingNumber: null,
     }
   },
   methods: {
     track() {
-      this.$router.push(`/${this.trackingNumber}`)
+      if (this.trackingNumber !== null && this.trackingNumber !== '') {
+        this.$router.push(`/${this.trackingNumber}`)
+      }
     },
   },
 }

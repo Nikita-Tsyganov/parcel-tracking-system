@@ -21,6 +21,14 @@
           :value="this.parcel.lastUpdate.statusId"
           max="9"
         ></b-progress>
+    <h3 class="mb-4">Delivery progress</h3>
+    <p class="mb-0">
+      Information updated:
+      {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
+    </p>
+    <b-table class="border-bottom" borderless :items="parcelDeliveryProgress">
+      <template #cell(progress)="data">
+        {{ data.value.status }}<br />{{ data.value.location }}
       </template>
     </div>
     <div class="container">
