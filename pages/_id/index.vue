@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <h5 class="mb-4">Delivery progress</h5>
-    <h6>
+    <h3 class="mb-4">Delivery progress</h3>
+    <p class="mb-0">
       Information updated:
       {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
-    </h6>
+    </p>
     <b-table class="border-bottom" borderless :items="parcelDeliveryProgress">
       <template #cell(progress)="data">
         {{ data.value.status }}<br />{{ data.value.location }}
