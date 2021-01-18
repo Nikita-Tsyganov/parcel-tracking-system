@@ -41,7 +41,8 @@ export default {
     component: 'fa',
     suffix: false,
     icons: {
-      solid: ['faChevronUp', 'faChevronDown'],
+      regular: [],
+      solid: [],
     },
   },
 
