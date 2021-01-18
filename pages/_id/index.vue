@@ -1,88 +1,95 @@
 <template>
   <div class="container">
-    <h3 class="mb-4">Delivery status</h3>
-    <p class="h5 font-weight-bold mb-1">
+    <h3 class="ls-02 mb-4">Delivery status</h3>
+    <div class="h5 font-weight-bold mb-1 ls-05">
       {{ this.parcel.status }}
-    </p>
+    </div>
     <b-link class="text-decoration-none mb-4" v-b-toggle.details
       >Delivery details
-      <span class="when-closed"><fa :icon="['fas', 'chevron-down']" /></span>
-      <span class="when-open"><fa :icon="['fas', 'chevron-up']" /></span>
+      <span class="when-closed">
+        <img class="chevron" src="chevron-down.svg" alt="Chevron down icon"
+      /></span>
+      <span class="when-open">
+        <img class="chevron" src="chevron-up.svg" alt="Chevron up icon"
+      /></span>
     </b-link>
-    <b-collapse class="mt-4" id="details">
-      <p class="my-0">
+    <b-collapse class="ls-05" id="details">
+      <div class="pt-4">
         <span class="font-weight-bold">Shipping service:</span>
         Team 5 Express
-      </p>
-      <p class="my-0">
+      </div>
+      <div>
         <span class="font-weight-bold">Tracking number:</span>
         {{ this.parcel.id }}
-      </p>
-      <p class="my-0">
+      </div>
+      <div>
         <span class="font-weight-bold">Delivery standard:</span>
         {{
           $moment(this.parcel.createdAt).add(14, 'days').format('MMM. D, YYYY')
         }}
-      </p>
-      <p>{{ this.parcel.statusid }}</p>
+      </div>
     </b-collapse>
-    <div class="container mb-0">
-      <h6 class="small my-2">
-        Origin<br /><span>
-          {{ this.parcel.origin }}
-        </span>
-      </h6>
-      <b-progress id="progress-bar" class="w-50 my-3" max="9">
+    <div class="h6 small ls-normal pt-4 mb-2">
+      <div>Origin</div>
+      <div>{{ this.parcel.origin }}</div>
+    </div>
+    <div class="col-lg-6 mb-5">
+      <b-progress class="overflow-visible my-3" id="progress-bar" max="9">
         <b-progress-bar
-          :value="this.parcel.lastUpdate.statusId"
+          class="rounded-pill position-relative overflow-visible"
+          :value="this.deliveryProgress"
           variant="success"
         >
         </b-progress-bar>
       </b-progress>
-      <div class="d-flex justify-content-between col-6">
-        <label
+      <div class="d-flex justify-content-between ls-05">
+        <div
+          class="delivery-milestone text-secondary"
           for="progress-bar"
-          class="col-2"
-          v-if="statusIDPresent(3) !== false"
+          v-if="parcel.lastUpdate.statusId >= 3"
         >
-          <fa :icon="['fas', 'box']" />
-          <h6 class="font-weight-bold my-0">Received by Team 5 Express</h6>
-          <h6>
+          <img class="mb-2" src="received.svg" alt="Parcel received" />
+          <div class="font-weight-bold">Received by Team 5</div>
+          <div>
             {{
               $moment(
-                this.parcel.parcelHistories[statusIDPresent(3)].dateTime
+                this.parcel.parcelHistories.filter(
+                  (parcelHistory) => parcelHistory.statusId === 3
+                )[0].datetime
               ).format('MMM. DD, YYYY')
             }}
-          </h6>
-        </label>
-        <label
+          </div>
+        </div>
+        <div
+          class="delivery-milestone text-right"
           for="progress-bar"
-          class="col-4"
-          v-if="statusIDPresent(9) !== false"
-          style="text-align: right"
+          v-if="parcel.status === 'Delivered'"
         >
-          <fa :icon="['fas', 'check-circle']" />
-          <h6 class="font-weight-bold my-0">Delivered</h6>
-          <h6>
-            {{
-              $moment(this.parcel.parcelHistories[0].dateTime).format('MMM. D')
-            }}
-          </h6>
-        </label>
+          <img
+            class="mb-2 text-success"
+            src="delivered.svg"
+            alt="Parcel delivered"
+          />
+          <div class="font-weight-bold">Delivered</div>
+          <div>
+            {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
+          </div>
+        </div>
       </div>
     </div>
-    <h3 class="mt-5 mb-4">Delivery progress</h3>
-    <p class="mb-0">
+    <h3 class="ls-05 mb-4">Delivery progress</h3>
+    <div class="ls-05">
       Information updated:
       {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
-    </p>
+    </div>
     <b-table
       class="border-bottom mb-4"
       borderless
       :items="parcelDeliveryProgress"
     >
       <template #cell(progress)="data">
-        {{ data.value.status }}<br />{{ data.value.location }}
+        <div>{{ data.value.status }}</div>
+        <div>{{ data.value.location }}</div>
       </template>
     </b-table>
     <b-button class="px-4 py-2 mt-4" squared variant="primary" to="/"
@@ -93,9 +100,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      deliveryProgress: 0,
+    }
+  },
   async asyncData({ store, params }) {
     const parcel = await store.dispatch('parcels/find', params.id)
     return { parcel }
+  },
+  async mounted() {
+    for (let i = 0; i <= this.parcel.lastUpdate.statusId * 100; i++) {
+      this.deliveryProgress = i / 100
+      if (i % 6 === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 1))
+      }
+    }
+
+    document
+      .getElementsByClassName('progress-bar')[0]
+      .classList.add('animation-done')
   },
   computed: {
     parcelDeliveryProgress() {
@@ -120,20 +144,8 @@ export default {
 
         parcelDeliveryProgress.push(parcelHistoryRow)
       }
-     
-      return parcelDeliveryProgress
-    },
-  },
-  methods: {
-    statusIDPresent(id) {
-      const parcels = this.parcel.parcelHistories
 
-      for (var i = 0, len = parcels.length; i < len; i++) {
-        if (parcels[i].statusId == id) {
-          return i
-        }
-      }
-      return false
+      return parcelDeliveryProgress
     },
   },
 }
@@ -144,8 +156,41 @@ export default {
 .when-open {
   display: none;
 }
+
 .collapsed > .when-closed,
 .not-collapsed > .when-open {
   display: inline-block;
+}
+
+.progress {
+  height: 12px;
+}
+
+.progress-bar::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: -19px;
+  background-color: white;
+  border: 7px solid #198754;
+  border-radius: 50%;
+}
+
+.progress-bar.animation-done::after {
+  right: 0;
+}
+
+.overflow-visible {
+  overflow: visible;
+}
+
+.delivery-milestone {
+  max-width: 120px;
+}
+
+.chevron {
+  padding-left: 3px;
+  margin-top: -2px;
 }
 </style>
