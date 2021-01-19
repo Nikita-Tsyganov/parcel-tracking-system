@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
     "nuxt": "^2.14.12",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.4.0"
   },
   "devDependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.15.2",
