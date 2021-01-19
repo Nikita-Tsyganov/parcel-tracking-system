@@ -42,39 +42,12 @@
         >
         </b-progress-bar>
       </b-progress>
-      <div class="d-flex justify-content-between ls-05">
-        <div
-          class="delivery-milestone text-secondary"
-          for="progress-bar"
-          v-if="parcel.lastUpdate.statusId >= 3"
-        >
-          <img class="mb-2" src="received.svg" alt="Parcel received" />
-          <div class="font-weight-bold">Received by Team 5</div>
-          <div>
-            {{
-              $moment(
-                this.parcel.parcelHistories.filter(
-                  (parcelHistory) => parcelHistory.statusId === 3
-                )[0].datetime
-              ).format('MMM. DD, YYYY')
-            }}
-          </div>
-        </div>
-        <div
-          class="delivery-milestone text-right"
-          for="progress-bar"
-          v-if="parcel.status === 'Delivered'"
-        >
-          <img
-            class="mb-2 text-success"
-            src="delivered.svg"
-            alt="Parcel delivered"
-          />
-          <div class="font-weight-bold">Delivered</div>
-          <div>
-            {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
-          </div>
-        </div>
+      <div>
+        <ProgressBarLabels
+          :key="parcel.id"
+          :parcelHistory="parcelHistory"
+          v-for="parcel in this.parcel"
+        />
       </div>
     </div>
     <h3 class="ls-05 mb-4">Delivery progress</h3>
@@ -99,7 +72,11 @@
 </template>
 
 <script>
+import ProgressBarLabels from '~/components/ProgressBarLabels'
 export default {
+  components: {
+    ProgressBarLabels,
+  },
   data() {
     return {
       deliveryProgress: 0,
@@ -144,7 +121,7 @@ export default {
 
         parcelDeliveryProgress.push(parcelHistoryRow)
       }
-
+      console.log(this.parcel.parcelHistories)
       return parcelDeliveryProgress
     },
   },

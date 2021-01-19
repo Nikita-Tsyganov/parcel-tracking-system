@@ -42,7 +42,7 @@ export default {
     suffix: false,
     icons: {
       regular: [],
-      solid: [],
+      solid: ['faTruck'],
     },
   },
 
