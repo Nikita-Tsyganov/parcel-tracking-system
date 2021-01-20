@@ -33,7 +33,7 @@
       <div>Origin</div>
       <div>{{ this.parcel.origin }}</div>
     </div>
-    <div class="col-lg-6 mb-5">
+    <div class="col-lg-6 mb-5" v-if="this.parcel.lastUpdate.statusId < 1">
       <b-progress class="overflow-visible my-3" id="progress-bar" max="9">
         <b-progress-bar
           class="rounded-pill position-relative overflow-visible"
@@ -43,11 +43,14 @@
         </b-progress-bar>
       </b-progress>
       <div>
-        <ProgressBarLabels
-          :key="parcel.id"
-          :parcelHistory="parcelHistory"
-          v-for="parcel in this.parcel"
-        />
+        <ProgressBarLabels :parcel="this.parcel" />
+      </div>
+    </div>
+    <div v-else>
+      <div class="col-lg-6 mb-5">
+        A shipping label has been created by the shipper. Once the shipment
+        arrives in our facility, tracking status and the expected delivery date
+        will be updated. Check back for updates.
       </div>
     </div>
     <h3 class="ls-05 mb-4">Delivery progress</h3>
@@ -121,7 +124,7 @@ export default {
 
         parcelDeliveryProgress.push(parcelHistoryRow)
       }
-      console.log(this.parcel.parcelHistories)
+      console.log(this.parcel.lastUpdate.statusId)
       return parcelDeliveryProgress
     },
   },
