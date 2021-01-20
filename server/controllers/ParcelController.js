@@ -1,39 +1,22 @@
 const BaseController = require('./BaseController')
-const { Parcel, ParcelHistory, Status } = require('../db.js')
+const { Parcel, ParcelEvent, Status } = require('../db.js')
 
 class ParcelController extends BaseController {
   // Constructor
   constructor() {
-    super(Parcel)
-
-    // @desc Get All Parcels
-    this.all = (req, res, next) => {
-      super.all(req, res, next, {
+    super(Parcel, {
+      find: {
         include: {
-          model: ParcelHistory,
-          as: 'parcelHistories',
+          model: ParcelEvent,
+          as: 'events',
           include: {
             model: Status,
             as: 'status',
           },
         },
-        order: [['id'], ['parcelHistories', 'datetime', 'DESC']],
-      })
-    }
-    // @desc Get A Single Parcel
-    this.find = (req, res, next) => {
-      super.find(req, res, next, {
-        include: {
-          model: ParcelHistory,
-          as: 'parcelHistories',
-          include: {
-            model: Status,
-            as: 'status',
-          },
-        },
-        order: [['id'], ['parcelHistories', 'datetime', 'DESC']],
-      })
-    }
+        order: [['id'], ['events', 'datetime', 'DESC']],
+      },
+    })
   }
 }
 

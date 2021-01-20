@@ -17,16 +17,13 @@ app.use(cors())
 app.use(express.json())
 
 // Employee API Routes
-app.use('/api/employees', require('./routes/api/EmployeeRouter.js'))
+app.use('/employees', require('./routes/EmployeeRouter.js'))
 // Status API Routes
-app.use('/api/statuses', require('./routes/api/StatusRouter.js'))
+app.use('/statuses', require('./routes/StatusRouter.js'))
 // Parcel API Routes
-app.use('/api/parcels', require('./routes/api/ParcelRouter.js'))
-// ParcelHistory API Routes
-app.use(
-  '/api/parcels-histories',
-  require('./routes/api/ParcelHistoryRouter.js')
-)
+app.use('/parcels', require('./routes/ParcelRouter.js'))
+// ParcelEvent API Routes
+app.use('/parcels-events', require('./routes/ParcelEventRouter.js'))
 
 // // UNCOMMENT FOR PURGING THE DATABASE
 // sequelize
@@ -37,7 +34,7 @@ app.use(
 //   .then(([results]) => console.log(results))
 // sequelize
 //   .query(
-//     `DROP TABLE IF EXISTS SequelizeMeta,SequelizeMetaBackup,Test,ParcelHistory,Parcel,Employee,Status;`
+//     `DROP TABLE IF EXISTS SequelizeMeta,SequelizeMetaBackup,Test,ParcelEvent,Parcel,Employee,Status;`
 //   )
 //   .then(([results, metadata]) => console.log(results, metadata))
 // sequelize

@@ -1,10 +1,10 @@
 const BaseController = require('./BaseController')
-const { ParcelHistory, Status } = require('../db.js')
+const { ParcelEvent, Status } = require('../db.js')
 
-class ParcelHistoryController extends BaseController {
+class ParcelEventController extends BaseController {
   // Constructor
   constructor() {
-    super(ParcelHistory)
+    super(ParcelEvent)
 
     // @desc Get All Parcels
     this.all = (req, res, next) => {
@@ -27,4 +27,4 @@ class ParcelHistoryController extends BaseController {
   }
 }
 
-module.exports = new ParcelHistoryController()
+module.exports = new ParcelEventController()

@@ -1,5 +1,5 @@
 const BaseRouter = require('./BaseRouter')
-const EmployeeController = require('../../controllers/EmployeeController.js')
+const EmployeeController = require('../controllers/EmployeeController.js')
 
 class EmployeeRouter extends BaseRouter {
   // Constructor
