@@ -24,7 +24,9 @@
       </div>
       <div>
         <span class="font-weight-bold">Delivery standard:</span>
-        {{ $moment(lastEvent.datetime).add(14, 'days').format('MMM. D, YYYY') }}
+        {{
+          $moment(firstEvent.datetime).add(14, 'days').format('MMM. D, YYYY')
+        }}
       </div>
     </b-collapse>
     <div class="h6 small ls-normal pt-4 mb-2">
