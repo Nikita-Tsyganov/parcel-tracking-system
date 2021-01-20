@@ -1,16 +1,23 @@
 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
- <style type="text/css">.st0{fill:none;stroke:#098A00;stroke-linecap:round;stroke-linejoin:round;}</style>
+    <style type="text/css">
+        .st0 {
+            fill: none;
+            stroke: #198754;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
 
- <title>System_Icons_20180523</title>
- <g>
-  <title>background</title>
-  <rect fill="none" id="canvas_background" height="602" width="802" y="-1" x="-1"/>
- </g>
- <g>
-  <title>Layer 1</title>
-  <g id="svg_1">
-   <polyline id="svg_2" points="7.5,13.3 10.7,16 16.5,8  " class="st0"/>
-   <circle id="svg_3" r="11.5" cy="12" cx="12" class="st0"/>
-  </g>
- </g>
+    <title>System_Icons_20180523</title>
+    <g>
+        <title>background</title>
+        <rect fill="none" id="canvas_background" height="602" width="802" y="-1" x="-1" />
+    </g>
+    <g>
+        <title>Layer 1</title>
+        <g id="svg_1">
+            <polyline id="svg_2" points="7.5,13.3 10.7,16 16.5,8  " class="st0" />
+            <circle id="svg_3" r="11.5" cy="12" cx="12" class="st0" />
+        </g>
+    </g>
 </svg>
