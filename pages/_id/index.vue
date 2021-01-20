@@ -24,9 +24,7 @@
       </div>
       <div>
         <span class="font-weight-bold">Delivery standard:</span>
-        {{
-          $moment(this.parcel.createdAt).add(14, 'days').format('MMM. D, YYYY')
-        }}
+        {{ $moment(lastEvent.datetime).add(14, 'days').format('MMM. D, YYYY') }}
       </div>
     </b-collapse>
     <div class="h6 small ls-normal pt-4 mb-2">
@@ -46,16 +44,15 @@
         <div
           class="delivery-milestone text-secondary"
           for="progress-bar"
-          v-if="parcel.lastUpdate.statusId >= 3"
+          v-if="lastEvent.statusId >= 3"
         >
           <img class="mb-2" src="received.svg" alt="Parcel received" />
           <div class="font-weight-bold">Received by Team 5</div>
           <div>
             {{
               $moment(
-                this.parcel.parcelHistories.filter(
-                  (parcelHistory) => parcelHistory.statusId === 3
-                )[0].datetime
+                this.parcel.events.filter((event) => event.statusId === 3)[0]
+                  .datetime
               ).format('MMM. DD, YYYY')
             }}
           </div>
@@ -63,7 +60,7 @@
         <div
           class="delivery-milestone text-right"
           for="progress-bar"
-          v-if="parcel.status === 'Delivered'"
+          v-if="lastEvent.status.status === 'Delivered'"
         >
           <img
             class="mb-2 text-success"
@@ -72,7 +69,7 @@
           />
           <div class="font-weight-bold">Delivered</div>
           <div>
-            {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
+            {{ $moment(this.lastEvent.datetime).format('MMM. D') }}
           </div>
         </div>
       </div>
@@ -80,7 +77,7 @@
     <h3 class="ls-05 mb-4">Delivery progress</h3>
     <div class="ls-05">
       Information updated:
-      {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
+      {{ $moment(this.lastEvent.datetime).format('MMM. D') }}
     </div>
     <b-table
       class="border-bottom mb-4"
@@ -110,7 +107,7 @@ export default {
     return { parcel }
   },
   async mounted() {
-    for (let i = 0; i <= this.parcel.lastUpdate.statusId * 100; i++) {
+    for (let i = 0; i <= this.lastEvent.statusId * 100; i++) {
       this.deliveryProgress = i / 100
       if (i % 6 === 0) {
         await new Promise((resolve) => setTimeout(resolve, 1))
@@ -122,11 +119,17 @@ export default {
       .classList.add('animation-done')
   },
   computed: {
+    firstEvent() {
+      return this.parcel.events[this.parcel.events.length - 1]
+    },
+    lastEvent() {
+      return this.parcel.events[0]
+    },
     parcelDeliveryProgress() {
       const parcelDeliveryProgress = []
       let previousDate = ''
 
-      for (const parcelHistory of this.parcel.parcelHistories) {
+      for (const parcelHistory of this.parcel.events) {
         const date = this.$moment(parcelHistory.datetime).format('MMM. D')
         const time = this.$moment(parcelHistory.datetime).format('h:mm a')
         const progress = {
