@@ -99,18 +99,18 @@
 
 <script>
 export default {
-  data() {
-    return {
-      deliveryProgress: 0,
-    }
-  },
   async asyncData({ store, params }) {
     const parcel = await store.dispatch('parcels/find', params.id)
-    return { parcel }
+
+    return {
+      parcel,
+      deliveryProgress: 0,
+    }
   },
   async mounted() {
     for (let i = 0; i <= this.lastEvent.statusId * 100; i++) {
       this.deliveryProgress = i / 100
+
       if (i % 6 === 0) {
         await new Promise((resolve) => setTimeout(resolve, 1))
       }
@@ -131,14 +131,14 @@ export default {
       const parcelDeliveryProgress = []
       let previousDate = ''
 
-      for (const parcelHistory of this.parcel.events) {
-        const date = this.$moment(parcelHistory.datetime).format('MMM. D')
-        const time = this.$moment(parcelHistory.datetime).format('h:mm a')
+      for (const event of this.parcel.events) {
+        const date = this.$moment(event.datetime).format('MMM. D')
+        const time = this.$moment(event.datetime).format('h:mm a')
         const progress = {
-          status: parcelHistory.status.status,
-          location: parcelHistory.location,
+          status: event.status.status,
+          location: event.location,
         }
-        const parcelHistoryRow = {
+        const eventRow = {
           date: date !== previousDate ? date : '',
           time,
           progress,
@@ -147,7 +147,7 @@ export default {
 
         previousDate = date
 
-        parcelDeliveryProgress.push(parcelHistoryRow)
+        parcelDeliveryProgress.push(eventRow)
       }
 
       return parcelDeliveryProgress
