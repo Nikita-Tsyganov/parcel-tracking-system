@@ -19,10 +19,6 @@ body {
   letter-spacing: 0.2px;
 }
 
-h3 {
-  letter-spacing: 0.3px;
-}
-
 p, td, textarea, input[type='password'], input[type='text'] {
   letter-spacing: 0.5px;
 }
@@ -52,6 +48,10 @@ th {
   font-weight: 500;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .font-weight-light {
   font-weight: 300;
 }
@@ -62,4 +62,16 @@ th {
 
 .font-weight-bold {
   font-weight: 500;
+}
+
+.ls-normal {
+  letter-spacing: normal;
+}
+
+.ls-02 {
+  letter-spacing: 0.2px;
+}
+
+.ls-05 {
+  letter-spacing: 0.5px;
 }
