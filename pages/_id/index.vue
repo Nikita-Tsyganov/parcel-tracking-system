@@ -2,7 +2,7 @@
   <div class="container">
     <h3 class="ls-02 mb-4">Delivery status</h3>
     <div class="h5 font-weight-bold mb-1 ls-05">
-      {{ this.parcel.status }}
+      {{ parcel.status }}
     </div>
     <b-link class="text-decoration-none mb-4" v-b-toggle.details
       >Delivery details
@@ -20,7 +20,7 @@
       </div>
       <div>
         <span class="font-weight-bold">Tracking number:</span>
-        {{ this.parcel.id }}
+        {{ parcel.id }}
       </div>
       <div>
         <span class="font-weight-bold">Delivery standard:</span>
@@ -31,13 +31,13 @@
     </b-collapse>
     <div class="h6 small ls-normal pt-4 mb-2">
       <div>Origin</div>
-      <div>{{ this.parcel.origin }}</div>
+      <div>{{ parcel.origin }}</div>
     </div>
     <div class="col-lg-6 mb-5">
       <b-progress class="overflow-visible my-3" id="progress-bar" max="9">
         <b-progress-bar
           class="rounded-pill position-relative overflow-visible"
-          :value="this.deliveryProgress"
+          :value="deliveryProgress"
           variant="success"
         >
         </b-progress-bar>
@@ -53,7 +53,7 @@
           <div>
             {{
               $moment(
-                this.parcel.events.filter((event) => event.statusId === 3)[0]
+                parcel.events.filter((event) => event.statusId === 3)[0]
                   .datetime
               ).format('MMM. DD, YYYY')
             }}
@@ -71,7 +71,7 @@
           />
           <div class="font-weight-bold">Delivered</div>
           <div>
-            {{ $moment(this.lastEvent.datetime).format('MMM. D') }}
+            {{ $moment(lastEvent.datetime).format('MMM. D') }}
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
     <h3 class="ls-05 mb-4">Delivery progress</h3>
     <div class="ls-05">
       Information updated:
-      {{ $moment(this.lastEvent.datetime).format('MMM. D') }}
+      {{ $moment(lastEvent.datetime).format('MMM. D') }}
     </div>
     <b-table
       class="border-bottom mb-4"

@@ -12,7 +12,7 @@
           type="text"
           aria-describedby="tracking-number-input-live-feedback"
           v-model="trackingNumber"
-          :state="this.trackingNumber === '' ? false : null"
+          :state="trackingNumber === '' ? false : null"
           placeholder="Enter up to 24 items, separated by commas or line breaks"
           @keypress.enter.prevent="track"
           @blur="trackingNumber = trackingNumber === null ? '' : trackingNumber"
