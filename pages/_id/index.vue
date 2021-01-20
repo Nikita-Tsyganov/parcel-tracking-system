@@ -95,7 +95,7 @@ export default {
     return { parcel }
   },
   async mounted() {
-    for (let i = 0; i <= this.parcel.lastUpdate.statusId * 100; i++) {
+    for (let i = 0; i <= this.parcel.lastUpdate.statusId * 90; i++) {
       this.deliveryProgress = i / 100
       if (i % 6 === 0) {
         await new Promise((resolve) => setTimeout(resolve, 1))

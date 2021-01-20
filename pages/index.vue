@@ -39,6 +39,18 @@ export default {
       trackingNumber: null,
     }
   },
+  //FOR PERSISTENCE, UNTESTED
+  mounted() {
+    if(localStorage.trackingNumber) {
+      this.trackingNumber = JSON.parse(localStorage.trackingNumber)
+    }
+  },
+  //FOR PERSISTENCE, UNTESTED
+  watch: {
+    trackingNumber(newNumber) { //might have to make into object and do the handler thingy
+      localStorage.trackingNumber = JSON.stringify(newNumber)
+    }
+  },
   methods: {
     track() {
       if (this.trackingNumber !== null && this.trackingNumber !== '') {

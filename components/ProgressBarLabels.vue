@@ -4,7 +4,7 @@
       id="parcel-received"
       class="delivery-milestone text-secondary"
       for="progress-bar"
-      v-if="parcel.lastUpdate.statusId >= 3"
+      v-if="parcel.lastUpdate.statusId == 3"
     >
       <img class="mb-2" src="received.svg" alt="Parcel received" />
       <div class="font-weight-bold">Received by Team 5</div>
@@ -19,12 +19,23 @@
       </div>
     </div>
     <div
-      id="CHANGEME1"
       class="delivery-milestone text-center"
       for="progress-bar"
+      v-if="parcel.status === 'desc[parcel.status]'"
+    >
+      <fa class="h4" :icon="['fas', icons[parcel.lastUpdate.statusId]]" />
+      <div class="font-weight-bold">{{ 'desc[parcel.status]' }}</div>
+      <div>
+        {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
+      </div>
+    </div>
+    <!-- <div
+      id="CHANGEME1"
+      class="delivery-milestone text-center"
+      for="progress-bar" 
       v-if="parcel.status === 'Delivered'"
     >
-      <fa :icon="['fas', 'truck']" />
+      <fa :icon="['fas', icons]" />
       <div class="font-weight-bold">CHANGE ME 1</div>
       <div>
         {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
@@ -36,7 +47,7 @@
       for="progress-bar"
       v-if="parcel.status === 'Delivered'"
     >
-      <fa :icon="['fas', 'truck']" />
+      <fa :icon="['fas', icons]" />
       <div class="font-weight-bold">CHANGE ME 2</div>
       <div>
         {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
@@ -48,7 +59,7 @@
       for="progress-bar"
       v-if="parcel.status === 'Delivered'"
     >
-      <fa :icon="['fas', 'truck']" />
+      <fa :icon="['fas', icons]" />
       <div class="font-weight-bold">CHANGE ME 3</div>
       <div>
         {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
@@ -60,7 +71,7 @@
       for="progress-bar"
       v-if="parcel.status === 'Delivered'"
     >
-      <fa :icon="['fas', 'truck']" />
+      <fa :icon="['fas', icons]" />
       <div class="font-weight-bold">CHANGE ME 4</div>
       <div>
         {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
@@ -72,7 +83,7 @@
       for="progress-bar"
       v-if="parcel.status === 'Delivered'"
     >
-      <fa :icon="['fas', 'truck']" />
+      <fa :icon="['fas', icons]" />
       <div class="font-weight-bold">CHANGE ME 5</div>
       <div>
         {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
@@ -84,7 +95,7 @@
       for="progress-bar"
       v-if="parcel.status === 'Delivered'"
     >
-      <fa :icon="['fa', 'truck']" />
+      <fa :icon="['fa', icons]" />
       <div class="font-weight-bold">CHANGE ME 6</div>
       <div>
         {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
@@ -96,12 +107,12 @@
       for="progress-bar"
       v-if="parcel.status === 'Delivered'"
     >
-      <fa :icon="['fas', 'truck']" />
+      <fa :icon="['fas', icons]" />
       <div class="font-weight-bold">In transit</div>
       <div>
         {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
       </div>
-    </div>
+    </div> -->
     <div
       id="delivered"
       class="delivery-milestone text-right"
@@ -124,6 +135,13 @@
 <script>
 export default {
   props: ['parcel'],
+
+  data() {
+    return {
+      icons: ['truck'], // add the others
+      desc: ['Delivered'],
+    }
+  },
 }
 </script>
 
