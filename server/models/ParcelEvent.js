@@ -3,19 +3,19 @@
 const { Model } = require('sequelize')
 
 module.exports = (sequelize, DataTypes) => {
-  class ParcelHistory extends Model {
+  class ParcelEvent extends Model {
     static associate(models) {
-      ParcelHistory.belongsTo(models.Parcel, {
+      ParcelEvent.belongsTo(models.Parcel, {
         foreignKey: 'parcelId',
         as: 'parcel',
       })
-      ParcelHistory.belongsTo(models.Status, {
+      ParcelEvent.belongsTo(models.Status, {
         foreignKey: 'statusId',
         as: 'status',
       })
     }
   }
-  ParcelHistory.init(
+  ParcelEvent.init(
     {
       parcelId: {
         type: DataTypes.INTEGER,
@@ -35,20 +35,36 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      location: {
+      city: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      province: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      location: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return `${this.city}, ${this.province}`
+        },
+        set(value) {
+          throw new Error(
+            `Cannot set the value of "location" to ${value} because it is a virtual field.`
+          )
+        },
       },
       datetime: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
     },
     {
       sequelize,
-      modelName: 'ParcelHistory',
-      tableName: 'ParcelHistory',
+      modelName: 'ParcelEvent',
+      tableName: 'ParcelEvent',
     }
   )
-  return ParcelHistory
+  return ParcelEvent
 }

@@ -41,13 +41,14 @@ export default {
     component: 'fa',
     suffix: false,
     icons: {
-      solid: ['faChevronUp', 'faChevronDown'],
+      regular: [],
+      solid: [],
     },
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:5000/api/',
+    baseURL: process.env.BASE_URL || 'http://localhost:5000/',
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

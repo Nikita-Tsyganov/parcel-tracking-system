@@ -1,0 +1,25 @@
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+    <style type="text/css">
+        .st0 {
+            fill: none;
+        }
+
+        .st1 {
+            fill: none;
+            stroke: #0d6efd;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+
+    <title>Up</title>
+    <g>
+        <title>background</title>
+        <rect fill="none" id="canvas_background" height="602" width="802" y="-1" x="-1" />
+    </g>
+    <g>
+        <title>Layer 1</title>
+        <rect id="svg_1" height="16" width="16" class="st0" y="0" />
+        <polyline id="svg_2" points="15.5,11.8 8,4.2 0.5,11.8 " class="st1" />
+    </g>
+</svg>

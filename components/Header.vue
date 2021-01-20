@@ -1,5 +1,5 @@
 <template>
-  <b-navbar class="mb-4" toggleable="lg" type="dark" variant="primary">
+  <b-navbar toggleable="lg" type="dark" variant="primary">
     <div class="container">
       <b-navbar-brand to="/">Track</b-navbar-brand>
 

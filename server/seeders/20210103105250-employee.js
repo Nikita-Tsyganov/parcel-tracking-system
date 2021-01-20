@@ -6,10 +6,14 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const employees = [
       {
+        id: 'john-doe',
+        password: 'johndoe1234',
         firstName: 'John',
         lastName: 'Doe',
       },
       {
+        id: 'jane-doe',
+        password: 'janedoe1234',
         firstName: 'Jane',
         lastName: 'Doe',
       },
