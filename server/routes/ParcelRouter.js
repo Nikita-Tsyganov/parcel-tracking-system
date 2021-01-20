@@ -1,5 +1,5 @@
 const BaseRouter = require('./BaseRouter')
-const ParcelController = require('../../controllers/ParcelController.js')
+const ParcelController = require('../controllers/ParcelController.js')
 
 class ParcelRouter extends BaseRouter {
   // Constructor

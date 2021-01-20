@@ -1,49 +1,49 @@
 'use strict'
 
-const { ParcelHistory } = require('../db.js')
+const { ParcelEvent } = require('../db.js')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const parcelHistories = [
+    const parcelEvents = [
       {
         parcelId: 1,
         statusId: 3,
-        location: 'Start',
-        datetime: Sequelize.fn('NOW'),
+        city: 'Toronto',
+        province: 'ON',
       },
       {
         parcelId: 1,
         statusId: 8,
-        location: 'In-Between',
-        datetime: Sequelize.fn('NOW'),
+        city: 'Thunder Bay',
+        province: 'ON',
       },
       {
         parcelId: 1,
         statusId: 9,
-        location: 'Finish',
-        datetime: Sequelize.fn('NOW'),
+        city: 'Winnipeg',
+        province: 'MB',
       },
       {
         parcelId: 2,
         statusId: 3,
-        location: 'Start',
-        datetime: Sequelize.fn('NOW'),
+        city: 'Winnipeg',
+        province: 'MB',
       },
       {
         parcelId: 2,
         statusId: 8,
-        location: 'In-Between',
-        datetime: Sequelize.fn('NOW'),
+        city: 'Thunder Bay',
+        province: 'ON',
       },
       {
         parcelId: 2,
         statusId: 9,
-        location: 'Finish',
-        datetime: Sequelize.fn('NOW'),
+        city: 'Toronto',
+        province: 'ON',
       },
     ]
-    for (const parcelHistory of parcelHistories) {
-      await ParcelHistory.create(parcelHistory)
+    for (const parcelEvent of parcelEvents) {
+      await ParcelEvent.create(parcelEvent)
       // Force waiting before creating the next record
       // in order to have different timestamps
       await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -51,7 +51,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await ParcelHistory.destroy({
+    await ParcelEvent.destroy({
       where: {},
     })
   },

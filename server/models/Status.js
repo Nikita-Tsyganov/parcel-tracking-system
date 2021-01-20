@@ -5,10 +5,10 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Status extends Model {
     static associate(models) {
-      Status.hasMany(models.ParcelHistory, {
+      Status.hasMany(models.ParcelEvent, {
         sourceKey: 'id',
         foreignKey: 'statusId',
-        as: 'parcelHistories',
+        as: 'parcelsEvents',
       })
     }
   }

@@ -1,6 +1,7 @@
 'use strict'
 
 const { Model } = require('sequelize')
+const bcrypt = require('bcrypt')
 
 module.exports = (sequelize, DataTypes) => {
   class Employee extends Model {
@@ -14,6 +15,19 @@ module.exports = (sequelize, DataTypes) => {
   }
   Employee.init(
     {
+      id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: 0,
+      },
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,6 +52,19 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Employee',
       tableName: 'Employee',
+      hooks: {
+        beforeCreate: (user) => {
+          user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync())
+        },
+        beforeUpdate: (user) => {
+          user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync())
+        },
+      },
+      instanceMethods: {
+        validPassword: function (password) {
+          return bcrypt.compareSync(password, this.password)
+        },
+      },
     }
   )
   return Employee

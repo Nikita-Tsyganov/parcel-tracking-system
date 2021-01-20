@@ -2,7 +2,7 @@
   <div class="container">
     <h3 class="ls-02 mb-4">Delivery status</h3>
     <div class="h5 font-weight-bold mb-1 ls-05">
-      {{ this.parcel.status }}
+      {{ parcel.status }}
     </div>
     <b-link class="text-decoration-none mb-4" v-b-toggle.details
       >Delivery details
@@ -20,24 +20,24 @@
       </div>
       <div>
         <span class="font-weight-bold">Tracking number:</span>
-        {{ this.parcel.id }}
+        {{ parcel.id }}
       </div>
       <div>
         <span class="font-weight-bold">Delivery standard:</span>
         {{
-          $moment(this.parcel.createdAt).add(14, 'days').format('MMM. D, YYYY')
+          $moment(firstEvent.datetime).add(14, 'days').format('MMM. D, YYYY')
         }}
       </div>
     </b-collapse>
     <div class="h6 small ls-normal pt-4 mb-2">
       <div>Origin</div>
-      <div>{{ this.parcel.origin }}</div>
+      <div>{{ parcel.origin }}</div>
     </div>
     <div class="col-lg-6 mb-5">
       <b-progress class="overflow-visible my-3" id="progress-bar" max="9">
         <b-progress-bar
           class="rounded-pill position-relative overflow-visible"
-          :value="this.deliveryProgress"
+          :value="deliveryProgress"
           variant="success"
         >
         </b-progress-bar>
@@ -46,16 +46,15 @@
         <div
           class="delivery-milestone text-secondary"
           for="progress-bar"
-          v-if="parcel.lastUpdate.statusId >= 3"
+          v-if="lastEvent.statusId >= 3"
         >
           <img class="mb-2" src="received.svg" alt="Parcel received" />
           <div class="font-weight-bold">Received by Team 5</div>
           <div>
             {{
               $moment(
-                this.parcel.parcelHistories.filter(
-                  (parcelHistory) => parcelHistory.statusId === 3
-                )[0].datetime
+                parcel.events.filter((event) => event.statusId === 3)[0]
+                  .datetime
               ).format('MMM. DD, YYYY')
             }}
           </div>
@@ -63,7 +62,7 @@
         <div
           class="delivery-milestone text-right"
           for="progress-bar"
-          v-if="parcel.status === 'Delivered'"
+          v-if="lastEvent.status.status === 'Delivered'"
         >
           <img
             class="mb-2 text-success"
@@ -72,7 +71,7 @@
           />
           <div class="font-weight-bold">Delivered</div>
           <div>
-            {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
+            {{ $moment(lastEvent.datetime).format('MMM. D') }}
           </div>
         </div>
       </div>
@@ -80,7 +79,7 @@
     <h3 class="ls-05 mb-4">Delivery progress</h3>
     <div class="ls-05">
       Information updated:
-      {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
+      {{ $moment(lastEvent.datetime).format('MMM. D') }}
     </div>
     <b-table
       class="border-bottom mb-4"
@@ -100,18 +99,18 @@
 
 <script>
 export default {
-  data() {
+  async asyncData({ store, params }) {
+    const parcel = await store.dispatch('parcels/find', params.id)
+
     return {
+      parcel,
       deliveryProgress: 0,
     }
   },
-  async asyncData({ store, params }) {
-    const parcel = await store.dispatch('parcels/find', params.id)
-    return { parcel }
-  },
   async mounted() {
-    for (let i = 0; i <= this.parcel.lastUpdate.statusId * 100; i++) {
+    for (let i = 0; i <= this.lastEvent.statusId * 100; i++) {
       this.deliveryProgress = i / 100
+
       if (i % 6 === 0) {
         await new Promise((resolve) => setTimeout(resolve, 1))
       }
@@ -122,18 +121,24 @@ export default {
       .classList.add('animation-done')
   },
   computed: {
+    firstEvent() {
+      return this.parcel.events[this.parcel.events.length - 1]
+    },
+    lastEvent() {
+      return this.parcel.events[0]
+    },
     parcelDeliveryProgress() {
       const parcelDeliveryProgress = []
       let previousDate = ''
 
-      for (const parcelHistory of this.parcel.parcelHistories) {
-        const date = this.$moment(parcelHistory.datetime).format('MMM. D')
-        const time = this.$moment(parcelHistory.datetime).format('h:mm a')
+      for (const event of this.parcel.events) {
+        const date = this.$moment(event.datetime).format('MMM. D')
+        const time = this.$moment(event.datetime).format('h:mm a')
         const progress = {
-          status: parcelHistory.status.status,
-          location: parcelHistory.location,
+          status: event.status.status,
+          location: event.location,
         }
-        const parcelHistoryRow = {
+        const eventRow = {
           date: date !== previousDate ? date : '',
           time,
           progress,
@@ -142,7 +147,7 @@ export default {
 
         previousDate = date
 
-        parcelDeliveryProgress.push(parcelHistoryRow)
+        parcelDeliveryProgress.push(eventRow)
       }
 
       return parcelDeliveryProgress
