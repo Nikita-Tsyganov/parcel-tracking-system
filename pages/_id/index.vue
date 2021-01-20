@@ -33,21 +33,26 @@
       <div>Origin</div>
       <div>{{ this.parcel.origin }}</div>
     </div>
-    <div class="col-lg-6 mb-5" v-if="this.parcel.lastUpdate.statusId < 1">
+    <div class="col-lg-6 mb-5" v-if="this.parcel.lastUpdate.statusId > 1">
       <b-progress class="overflow-visible my-3" id="progress-bar" max="9">
         <b-progress-bar
-          class="rounded-pill position-relative overflow-visible"
+          class="working rounded-pill position-relative overflow-visible"
+          v-if="this.deliveryProgress < 9"
+          :value="this.deliveryProgress"
+        >
+        </b-progress-bar>
+        <b-progress-bar
+          class="success rounded-pill position-relative overflow-visible"
+          v-else
           :value="this.deliveryProgress"
           variant="success"
         >
         </b-progress-bar>
       </b-progress>
-      <div>
-        <ProgressBarLabels :parcel="this.parcel" />
-      </div>
+      <ProgressBarLabels :parcel="this.parcel" />
     </div>
     <div v-else>
-      <div class="col-lg-6 mb-5">
+      <div class="mb-4">
         A shipping label has been created by the shipper. Once the shipment
         arrives in our facility, tracking status and the expected delivery date
         will be updated. Check back for updates.
@@ -96,10 +101,11 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 1))
       }
     }
-
-    document
-      .getElementsByClassName('progress-bar')[0]
-      .classList.add('animation-done')
+    if (this.parcel.lastUpdate.statusId < 1) {
+      document
+        .getElementsByClassName('progress-bar')[0]
+        .classList.add('animation-done')
+    }
   },
   computed: {
     parcelDeliveryProgress() {
@@ -124,7 +130,6 @@ export default {
 
         parcelDeliveryProgress.push(parcelHistoryRow)
       }
-      console.log(this.parcel.lastUpdate.statusId)
       return parcelDeliveryProgress
     },
   },
@@ -146,7 +151,18 @@ export default {
   height: 12px;
 }
 
-.progress-bar::after {
+.progress-bar.working::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: -19px;
+  background-color: white;
+  border: 7px solid #0275d8;
+  border-radius: 50%;
+}
+
+.progress-bar.success::after {
   content: '';
   width: 24px;
   height: 24px;

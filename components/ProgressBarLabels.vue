@@ -84,7 +84,7 @@
       for="progress-bar"
       v-if="parcel.status === 'Delivered'"
     >
-      <fa :icon="['fas', 'truck']" />
+      <fa :icon="['fa', 'truck']" />
       <div class="font-weight-bold">CHANGE ME 6</div>
       <div>
         {{ $moment(parcel.lastUpdate.datetime).format('MMM. D') }}
