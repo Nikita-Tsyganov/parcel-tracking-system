@@ -1,0 +1,31 @@
+<svg width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #333;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <title>Track Icon</title>
+  <g>
+    <title>background</title>
+    <rect fill="none" id="canvas_background" height="602" width="802" y="-1" x="-1" />
+  </g>
+  <g>
+    <title>Layer 1</title>
+    <g id="svg_1">
+      <circle id="svg_2" r="15.18425" cy="18.0683" cx="18.00775" class="cls-1" />
+      <line id="svg_3" y2="17.99225" x2="5.05515" y1="17.99225" x1="0.50015" class="cls-1" />
+      <line id="svg_4" y2="17.99225" x2="35.49985" y1="17.99225" x1="30.94485" class="cls-1" />
+      <line id="svg_5" y2="30.91445" x2="18.00775" y1="35.46945" x1="18.00775" class="cls-1" />
+      <line id="svg_6" y2="0.53055" x2="18.00775" y1="5.08555" x1="18.00775" class="cls-1" />
+      <polyline id="svg_7" points="11.934 14.667 17.446 14.667 24.082 14.667" class="cls-1" />
+      <polygon id="svg_8"
+        points="24.081 14.667 22.973 11.919 13.148 11.919 11.933 14.667 11.933 24.066 24.081 24.066 24.081 14.667"
+        class="cls-1" />
+    </g>
+  </g>
+</svg>

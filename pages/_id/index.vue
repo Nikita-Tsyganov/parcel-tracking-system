@@ -33,20 +33,19 @@
       <div>Origin</div>
       <div>{{ parcel.origin }}</div>
     </div>
-    <div class="col-lg-6 mb-5">
-      <b-progress class="overflow-visible my-3" id="progress-bar" max="9">
+    <div v-if="lastEvent.statusId > 1" class="col-lg-6 mb-5">
+      <b-progress class="rounded-pill overflow-visible my-3" max="9">
         <b-progress-bar
           class="rounded-pill position-relative overflow-visible"
           :value="deliveryProgress"
-          variant="success"
+          :variant="lastEvent.statusId === 9 ? 'success' : 'primary'"
         >
         </b-progress-bar>
       </b-progress>
-      <div class="d-flex justify-content-between ls-05">
+      <div class="position-relative d-flex justify-content-between ls-05">
         <div
-          class="delivery-milestone text-secondary"
-          for="progress-bar"
           v-if="lastEvent.statusId >= 3"
+          class="delivery-milestone text-secondary"
         >
           <img class="mb-2" src="received.svg" alt="Parcel received" />
           <div class="font-weight-bold">Received by Team 5</div>
@@ -60,9 +59,24 @@
           </div>
         </div>
         <div
+          v-if="lastEvent.statusId > 3 && lastEvent.statusId < 9"
+          class="position-absolute delivery-milestone dynamic-delivery-milestone text-center"
+          :style="{
+            left: `calc(${(lastEvent.statusId / 9.0) * 100}%)`,
+          }"
+        >
+          <div class="h4 m-0">
+            <fa :icon="['fas', statusIcons[lastEvent.statusId - 1]]" />
+          </div>
+          <div class="font-weight-bold">{{ lastEvent.status.status }}</div>
+          <div>
+            {{ $moment(lastEvent.datetime).format('MMM. D') }}
+          </div>
+        </div>
+        <div
+          id="delivered"
           class="delivery-milestone text-right"
-          for="progress-bar"
-          v-if="lastEvent.status.status === 'Delivered'"
+          v-if="lastEvent.statusId === 9"
         >
           <img
             class="mb-2 text-success"
@@ -74,6 +88,13 @@
             {{ $moment(lastEvent.datetime).format('MMM. D') }}
           </div>
         </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="col-lg-6 my-4">
+        A shipping label has been created by the shipper. Once the shipment
+        arrives in our facility, tracking status and the expected delivery date
+        will be updated. Check back for updates.
       </div>
     </div>
     <h3 class="ls-05 mb-4">Delivery progress</h3>
@@ -105,6 +126,17 @@ export default {
     return {
       parcel,
       deliveryProgress: 0,
+      statusIcons: [
+        '',
+        '',
+        '',
+        'truck',
+        'truck',
+        'truck',
+        'truck',
+        'truck',
+        '',
+      ],
     }
   },
   async mounted() {
@@ -115,10 +147,15 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 1))
       }
     }
+    if (this.lastEvent.statusId > 1) {
+      const progressBar = document.getElementsByClassName('progress-bar')[0]
 
-    document
-      .getElementsByClassName('progress-bar')[0]
-      .classList.add('animation-done')
+      if (this.lastEvent.statusId === 9) {
+        progressBar.classList.add('delivered')
+      } else {
+        progressBar.classList.add('animation-done')
+      }
+    }
   },
   computed: {
     firstEvent() {
@@ -149,7 +186,6 @@ export default {
 
         parcelDeliveryProgress.push(eventRow)
       }
-
       return parcelDeliveryProgress
     },
   },
@@ -178,20 +214,28 @@ export default {
   position: absolute;
   right: -19px;
   background-color: white;
-  border: 7px solid #198754;
+  border: 7px solid #0d6efd;
   border-radius: 50%;
 }
 
-.progress-bar.animation-done::after {
-  right: 0;
+.progress-bar.bg-success::after {
+  border-color: #198754;
 }
 
-.overflow-visible {
-  overflow: visible;
+.progress-bar.animation-done::after {
+  right: -12px;
+}
+
+.progress-bar.delivered::after {
+  right: 0;
 }
 
 .delivery-milestone {
   max-width: 120px;
+}
+
+.dynamic-delivery-milestone {
+  transform: translate(-50%);
 }
 
 .chevron {
