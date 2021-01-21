@@ -33,26 +33,70 @@
       <div>Origin</div>
       <div>{{ parcel.origin }}</div>
     </div>
-    <div class="col-lg-6 mb-5" v-if="this.parcel.lastUpdate.statusId > 1">
-      <b-progress class="overflow-visible my-3" id="progress-bar" max="9">
+    <div v-if="lastEvent.statusId > 1" class="col-lg-6 mb-5">
+      <b-progress
+        class="rounded-pill overflow-visible my-3"
+        id="progress-bar"
+        max="9"
+      >
         <b-progress-bar
-          class="working rounded-pill position-relative overflow-visible"
-          v-if="deliveryProgress < 9"
+          class="rounded-pill position-relative overflow-visible"
+          id="progress-bar"
           :value="deliveryProgress"
-        >
-        </b-progress-bar>
-        <b-progress-bar
-          class="success rounded-pill position-relative overflow-visible"
-          v-else
-          :value="deliveryProgress"
-          variant="success"
+          :variant="lastEvent.statusId === 9 ? 'success' : 'primary'"
         >
         </b-progress-bar>
       </b-progress>
-      <ProgressBarLabels :parcel="this.parcel" />
+      <div class="position-relative d-flex justify-content-between ls-05">
+        <div
+          v-if="lastEvent.statusId >= 3"
+          class="delivery-milestone text-secondary"
+        >
+          <img class="mb-2" src="received.svg" alt="Parcel received" />
+          <div class="font-weight-bold">Received by Team 5</div>
+          <div>
+            {{
+              $moment(
+                parcel.events.filter((event) => event.statusId === 3)[0]
+                  .datetime
+              ).format('MMM. DD, YYYY')
+            }}
+          </div>
+        </div>
+        <div
+          v-if="lastEvent.statusId > 3 && lastEvent.statusId < 9"
+          class="position-absolute delivery-milestone dynamic-delivery-milestone text-center"
+          :style="{
+            left: `calc(${(lastEvent.statusId / 9.0) * 100}%)`,
+          }"
+        >
+          <div class="h4 m-0">
+            <fa :icon="['fas', statusIcons[lastEvent.statusId - 1]]" />
+          </div>
+          <div class="font-weight-bold">{{ lastEvent.status.status }}</div>
+          <div>
+            {{ $moment(lastEvent.datetime).format('MMM. D') }}
+          </div>
+        </div>
+        <div
+          id="delivered"
+          class="delivery-milestone text-right"
+          v-if="lastEvent.statusId === 9"
+        >
+          <img
+            class="mb-2 text-success"
+            src="delivered.svg"
+            alt="Parcel delivered"
+          />
+          <div class="font-weight-bold">Delivered</div>
+          <div>
+            {{ $moment(lastEvent.datetime).format('MMM. D') }}
+          </div>
+        </div>
+      </div>
     </div>
     <div v-else>
-      <div class="mb-4">
+      <div class="col-lg-6 my-4">
         A shipping label has been created by the shipper. Once the shipment
         arrives in our facility, tracking status and the expected delivery date
         will be updated. Check back for updates.
@@ -91,6 +135,17 @@ export default {
     return {
       parcel,
       deliveryProgress: 0,
+      statusIcons: [
+        '',
+        '',
+        '',
+        'truck',
+        'truck',
+        'truck',
+        'truck',
+        'truck',
+        '',
+      ],
     }
   },
   async mounted() {
@@ -101,10 +156,14 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 1))
       }
     }
-    if (this.parcel.lastUpdate.statusId < 1) {
-      document
-        .getElementsByClassName('progress-bar')[0]
-        .classList.add('animation-done')
+    if (this.lastEvent.statusId > 1) {
+      const progressBar = document.getElementsByClassName('progress-bar')[0]
+
+      if (this.lastEvent.statusId === 9) {
+        progressBar.classList.add('delivered')
+      } else {
+        progressBar.classList.add('animation-done')
+      }
     }
   },
   computed: {
@@ -157,38 +216,35 @@ export default {
   height: 12px;
 }
 
-.progress-bar.working::after {
+.progress-bar::after {
   content: '';
   width: 24px;
   height: 24px;
   position: absolute;
   right: -19px;
   background-color: white;
-  border: 7px solid #0275d8;
+  border: 7px solid #0d6efd;
   border-radius: 50%;
 }
 
-.progress-bar.success::after {
-  content: '';
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  right: -19px;
-  background-color: white;
-  border: 7px solid #198754;
-  border-radius: 50%;
+.progress-bar.bg-success::after {
+  border-color: #198754;
 }
 
 .progress-bar.animation-done::after {
-  right: 0;
+  right: -12px;
 }
 
-.overflow-visible {
-  overflow: visible;
+.progress-bar.delivered::after {
+  right: 0;
 }
 
 .delivery-milestone {
   max-width: 120px;
+}
+
+.dynamic-delivery-milestone {
+  transform: translate(-50%);
 }
 
 .chevron {
