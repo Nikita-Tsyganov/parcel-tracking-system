@@ -126,9 +126,6 @@
 <script>
 import ProgressBarLabels from '~/components/ProgressBarLabels'
 export default {
-  components: {
-    ProgressBarLabels,
-  },
   async asyncData({ store, params }) {
     const parcel = await store.dispatch('parcels/find', params.id)
 
