@@ -34,14 +34,9 @@
       <div>{{ parcel.origin }}</div>
     </div>
     <div v-if="lastEvent.statusId > 1" class="col-lg-6 mb-5">
-      <b-progress
-        class="rounded-pill overflow-visible my-3"
-        id="progress-bar"
-        max="9"
-      >
+      <b-progress class="rounded-pill overflow-visible my-3" max="9">
         <b-progress-bar
           class="rounded-pill position-relative overflow-visible"
-          id="progress-bar"
           :value="deliveryProgress"
           :variant="lastEvent.statusId === 9 ? 'success' : 'primary'"
         >
