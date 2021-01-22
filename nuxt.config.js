@@ -35,6 +35,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // https://auth.nuxtjs.org/
+    '@nuxtjs/auth-next'
   ],
 
   fontawesome: {
@@ -42,7 +44,7 @@ export default {
     suffix: false,
     icons: {
       regular: [],
-      solid: ['faTruck'],
+      solid: ['faLaptop', 'faMailBulk', 'faListAlt', 'faPlaneArrival', 'faWarehouse', 'faShippingFast', 'faTruck'],
     },
   },
 

@@ -24,9 +24,7 @@
       </div>
       <div>
         <span class="font-weight-bold">Delivery standard:</span>
-        {{
-          $moment(firstEvent.datetime).add(14, 'days').format('MMM. D, YYYY')
-        }}
+        {{ lastEvent.statusId > 1 ? $moment(firstEvent.datetime).add(14, 'days').format('MMM. D, YYYY') : "The delivery standard date is unavailable at this time." }}
       </div>
     </b-collapse>
     <div class="h6 small ls-normal pt-4 mb-2">
@@ -48,7 +46,7 @@
           class="delivery-milestone text-secondary"
         >
           <img class="mb-2" src="received.svg" alt="Parcel received" />
-          <div class="font-weight-bold">Received by Team 5</div>
+          <div class="font-weight-bold">Shipment picked up by Canada Post</div>
           <div>
             {{
               $moment(
@@ -90,11 +88,12 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <div class="col-lg-6 my-4">
-        A shipping label has been created by the shipper. Once the shipment
-        arrives in our facility, tracking status and the expected delivery date
-        will be updated. Check back for updates.
+    <div v-else class="d-inline-flex justify-content-start my-4">
+      <div class="h4 col-sm-1">
+        <fa :icon="['fas', 'laptop']" />
+      </div>
+      <div>
+        The sender has created a shipping label. When we process the item, we'll update its status and expected delivery date. Track this item later for updates.
       </div>
     </div>
     <h3 class="ls-05 mb-4">Delivery progress</h3>
@@ -127,15 +126,15 @@ export default {
       parcel,
       deliveryProgress: 0,
       statusIcons: [
-        '',
-        '',
-        '',
-        'truck',
-        'truck',
-        'truck',
-        'truck',
-        'truck',
-        '',
+        'mail-bulk', // 3: Shipment received at originating postal facility
+        'list-alt', //  4: Item processed
+        'plane-arrival', // 5: Item arrived
+        'warehouse', // 6: Arrived at sorting facility
+        'shipping-fast', // 7: Out for delivery
+        'truck', // 8: In transit
+        '', // do not need the rest... I think
+        '', // 1 is conditional and separate, 2 & 9 use images
+        '', // 2, 3 discrepancy
       ],
     }
   },

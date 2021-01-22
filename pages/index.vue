@@ -29,11 +29,20 @@
         >
       </form>
     </div>
+    <!-- v-for="trackingItem in something"
+      :key="trackingItem.id" -->
+    <RecentlyTrackedItem
+      :trackingItem="this.$auth.$storage.getLocalStorage(1)"
+    />
   </div>
 </template>
 
 <script>
+import RecentlyTrackedItem from '~/components/RecentlyTrackedItem'
 export default {
+  components: {
+    RecentlyTrackedItem,
+  },
   data() {
     return {
       trackingNumber: null,
@@ -43,6 +52,10 @@ export default {
     track() {
       if (this.trackingNumber !== null && this.trackingNumber !== '') {
         this.$router.push(`/${this.trackingNumber}`)
+
+        if (process.browser) {
+          this.$auth.$storage.setLocalStorage(this.trackingNumber, 1)
+        }
       }
     },
   },
