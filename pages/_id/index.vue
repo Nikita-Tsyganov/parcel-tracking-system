@@ -132,9 +132,6 @@ export default {
         'warehouse', // 6: Arrived at sorting facility
         'shipping-fast', // 7: Out for delivery
         'truck', // 8: In transit
-        '', // do not need the rest... I think
-        '', // 1 is conditional and separate, 2 & 9 use images
-        '', // 2, 3 discrepancy
       ],
     }
   },

@@ -29,11 +29,13 @@
         >
       </form>
     </div>
-    <!-- v-for="trackingItem in something"
-      :key="trackingItem.id" -->
-    <RecentlyTrackedItem
-      :trackingItem="this.$auth.$storage.getLocalStorage(1)"
-    />
+    <div>
+      <RecentlyTrackedItem
+        v-for="trackingItem in retrieve"
+        :key="trackingItem.id"
+        :trackingItem="retrieve"
+      />
+    </div>
   </div>
 </template>
 
@@ -46,18 +48,39 @@ export default {
   data() {
     return {
       trackingNumber: null,
+      recentlyTracked: [],
+      recentlyTrackedItems: [], //idk
     }
   },
   methods: {
-    track() {
+    async track() {
       if (this.trackingNumber !== null && this.trackingNumber !== '') {
         this.$router.push(`/${this.trackingNumber}`)
+      }
+      const parcel = await this.$store.dispatch(
+        'parcels/find',
+        this.trackingNumber
+      )
 
-        if (process.browser) {
-          this.$auth.$storage.setLocalStorage(this.trackingNumber, 1)
-        }
+      this.recentlyTracked.push(parcel)
+      if (process.browser) {
+        this.$auth.$storage.setLocalStorage(
+          this.trackingNumber,
+          this.recentlyTracked
+        )
       }
     },
+  },
+  // issue remaining is with accessing local storage and getting it to the component.
+  mounted() {
+    var recentlyTrackedItems = [],
+      keys = Object.keys(),
+      i = keys.length
+
+    while (i--) {
+      recentlyTrackedItems.push(this.$auth.$storage.getLocalStorage(i).items)
+    }
+    console.log(recentlyTrackedItems)
   },
 }
 </script>

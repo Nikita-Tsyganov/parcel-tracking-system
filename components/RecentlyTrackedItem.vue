@@ -4,28 +4,30 @@
     <h3>Recently tracked items</h3>
     <div>
       <span>
-        <!-- tracking number -->
+        {{ trackingItem.id }}
+        <!-- tracking id -->
       </span>
       <span>
+        {{ trackingItem.events[0].status.status }}
         <!-- status -->
       </span>
       <span>
         Last updated:
-        <!-- date -->
+        {{ this.$moment(trackingItem.events[0].datetime).format('MMM. D') }}
       </span>
-      <b-button variant="danger"> </b-button>
+      <!-- datetime -->
+      <b-button
+        variant="danger"
+        @click="this.$auth.$storage.removeLocalStorage(trackingItem.id)"
+      ></b-button>
     </div>
-    {{ this.$auth.$storage.getLocalStorage(1) }}
   </div>
 </template>
 
 <script>
 export default {
-    props: [
-        "trackingItem"
-    ]
+  props: ['trackingItem'],
 }
 </script>
 
-<style scoped>
-</style>
+<style lang="scss" scoped></style>
