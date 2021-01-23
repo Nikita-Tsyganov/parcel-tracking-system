@@ -1,5 +1,8 @@
 <template>
   <div>
+    <b-button class="mt-4" variant="primary" to="/admin/parcels/add"
+      >Add Parcel</b-button
+    >
     <b-table striped hover :items="parcelsList">
       <template #cell(tracking_ID)="data">
         <nuxt-link :to="`/admin/parcels/${data.value}`">{{
@@ -7,7 +10,9 @@
         }}</nuxt-link>
       </template>
       <template #cell(employee_ID)="data">
-        <nuxt-link to="">{{ data.value }}</nuxt-link>
+        <nuxt-link :to="`/admin/employees/${data.value}`">{{
+          data.value
+        }}</nuxt-link>
       </template>
       <template #cell(actions)="data">
         <b-button
@@ -17,7 +22,11 @@
         >
           View / Edit
         </b-button>
-        <b-button size="sm" variant="danger" @click="deleteParcel(data.item.tracking_ID)">
+        <b-button
+          size="sm"
+          variant="danger"
+          @click="deleteParcel(data.item.tracking_ID)"
+        >
           Delete
         </b-button>
       </template>
@@ -39,12 +48,12 @@ export default {
         const parcelRow = {
           tracking_ID: parcel.id,
           employee_ID: parcel.employeeId,
-          customer_name: parcel.customerName,
+          customer_name: parcel.fromName,
           origin: parcel.origin,
           destination: parcel.destination,
-          location: parcel.location,
-          status: parcel.status,
-          date: this.$moment(parcel.lastUpdate.datetime).format('MMM. D'),
+          location: parcel.events[0].location,
+          status: parcel.events[0].status.status,
+          date: this.$moment(parcel.events[0].datetime).format('MMM. D'),
           actions: '',
         }
         parcelsList.push(parcelRow)

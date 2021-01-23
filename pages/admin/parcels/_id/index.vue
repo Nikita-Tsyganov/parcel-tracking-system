@@ -16,6 +16,7 @@
       <b-button v-if="viewMode" @click="viewMode = !viewMode" variant="primary"
         >Edit</b-button
       >
+      <b-button v-if="viewMode" to="/admin/parcels">Back</b-button>
       <b-button
         v-if="!viewMode"
         @click="updateParcel(parcel.id, parcel)"
@@ -25,16 +26,22 @@
       <b-button v-if="!viewMode" @click="viewMode = !viewMode">Cancel</b-button>
     </b-card>
 
-    <h5 class="my-4">Delivery progress</h5>
-    <h6>
+    <h3 class="ls-05 my-4">Delivery progress</h3>
+    <div class="ls-05">
       Information updated:
-      {{ $moment(this.parcel.lastUpdate.datetime).format('MMM. D') }}
-    </h6>
-    <b-table class="border-bottom" borderless :items="parcelDeliveryProgress">
+      {{ $moment(lastEvent.datetime).format('MMM. D') }}
+    </div>
+    <b-table
+      class="border-bottom mb-4"
+      borderless
+      :items="parcelDeliveryProgress"
+    >
       <template #cell(progress)="data">
-        {{ data.value.status }}<br />{{ data.value.location }}
+        <div>{{ data.value.status }}</div>
+        <div>{{ data.value.location }}</div>
       </template>
     </b-table>
+    <b-button to="/admin/parcels">Back</b-button>
   </div>
 </template>
 
@@ -54,27 +61,29 @@ export default {
       return {
         'Tracking Number': this.parcel.id.toString(),
         'Employee ID': this.parcel.employeeId.toString(),
-        'Customer Name': this.parcel.customerName,
+        'Customer Name': this.parcel.fromName,
         Origin: this.parcel.origin,
         Destination: this.parcel.destination,
-        Location: this.parcel.location,
-        Status: this.parcel.status,
-        Date: this.$moment(this.parcel.lastUpdate.datetime).format('MMM. D'),
+        Location: this.lastEvent.location,
+        Status: this.lastEvent.status.status,
+        Date: this.$moment(this.lastEvent.datetime).format('MMM. D'),
       }
+    },
+    lastEvent() {
+      return this.parcel.events[0]
     },
     parcelDeliveryProgress() {
       const parcelDeliveryProgress = []
-      const parcelHistories = this.parcel.parcelHistories
       let previousDate = ''
 
-      for (const parcelHistory of parcelHistories) {
-        const date = this.$moment(parcelHistory.datetime).format('MMM. D')
-        const time = this.$moment(parcelHistory.datetime).format('h:mm a')
+      for (const event of this.parcel.events) {
+        const date = this.$moment(event.datetime).format('MMM. D')
+        const time = this.$moment(event.datetime).format('h:mm a')
         const progress = {
-          status: parcelHistory.status.status,
-          location: parcelHistory.location,
+          status: event.status.status,
+          location: event.location,
         }
-        const parcelHistoryRow = {
+        const eventRow = {
           date: date !== previousDate ? date : '',
           time,
           progress,
@@ -83,7 +92,7 @@ export default {
 
         previousDate = date
 
-        parcelDeliveryProgress.push(parcelHistoryRow)
+        parcelDeliveryProgress.push(eventRow)
       }
       return parcelDeliveryProgress
     },

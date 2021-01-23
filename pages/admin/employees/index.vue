@@ -1,5 +1,8 @@
 <template>
   <div>
+    <b-button class="mt-4" variant="primary" to="/admin/employees/add"
+      >Add Employee</b-button
+    >
     <b-table striped hover :items="employeesList">
       <template #cell(employee_ID)="data">
         <nuxt-link :to="`/admin/employees/${data.value}`">{{
@@ -14,7 +17,11 @@
         >
           View / Edit
         </b-button>
-        <b-button size="sm" variant="danger" @click="deleteEmployee(data.item.employee_ID)">
+        <b-button
+          size="sm"
+          variant="danger"
+          @click="deleteEmployee(data.item.employee_ID)"
+        >
           Delete
         </b-button>
       </template>
@@ -36,8 +43,7 @@ export default {
         const employeeRow = {
           employee_ID: employee.id,
           full_name: employee.fullName,
-          email: employee.email,
-          username: employee.username,
+          role: employee.isAdmin == 0 ? 'Employee' : 'Admin',
           actions: '',
         }
         employeesList.push(employeeRow)

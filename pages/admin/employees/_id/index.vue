@@ -20,6 +20,7 @@
       <b-button v-if="viewMode" @click="viewMode = !viewMode" variant="primary"
         >Edit</b-button
       >
+      <b-button v-if="viewMode" to="/admin/employees">Back</b-button>
       <b-button
         v-if="!viewMode"
         @click="updateEmployee(employee.id, employee)"
@@ -47,8 +48,7 @@ export default {
       return {
         'Employee ID': this.employee.id.toString(),
         'Full Name': this.employee.fullName,
-        Email: this.employee.email,
-        Username: this.employee.username,
+        Role: this.employee.isAdmin == 0 ? 'Employee' : 'Admin',
       }
     },
   },
