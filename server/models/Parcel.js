@@ -42,13 +42,32 @@ module.exports = (sequelize, DataTypes) => {
       fromProvince: {
         type: DataTypes.STRING,
         allowNull: false,
+        isIn: [
+          [
+            'AB',
+            'BC',
+            'MB',
+            'NB',
+            'NL',
+            'NT',
+            'NS',
+            'NU',
+            'ON',
+            'PE',
+            'QC',
+            'SK',
+            'YT',
+          ],
+        ],
       },
       fromPostalCode: {
         type: DataTypes.STRING,
         allowNull: false,
+        is: /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ] \d[ABCEGHJKLMNPRSTVWXYZ]\d$/,
       },
       fromPhone: {
         type: DataTypes.STRING,
+        isMobilePhone: ['ca-AD'],
       },
       origin: {
         type: DataTypes.VIRTUAL,
@@ -76,13 +95,32 @@ module.exports = (sequelize, DataTypes) => {
       toProvince: {
         type: DataTypes.STRING,
         allowNull: false,
+        isIn: [
+          [
+            'AB',
+            'BC',
+            'MB',
+            'NB',
+            'NL',
+            'NT',
+            'NS',
+            'NU',
+            'ON',
+            'PE',
+            'QC',
+            'SK',
+            'YT',
+          ],
+        ],
       },
       toPostalCode: {
         type: DataTypes.STRING,
         allowNull: false,
+        is: /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ] \d[ABCEGHJKLMNPRSTVWXYZ]\d$/,
       },
       toPhone: {
         type: DataTypes.STRING,
+        isMobilePhone: ['ca-AD'],
       },
       destination: {
         type: DataTypes.VIRTUAL,
