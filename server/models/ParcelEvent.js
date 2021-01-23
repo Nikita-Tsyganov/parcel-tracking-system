@@ -42,6 +42,23 @@ module.exports = (sequelize, DataTypes) => {
       province: {
         type: DataTypes.STRING,
         allowNull: false,
+        isIn: [
+          [
+            'AB',
+            'BC',
+            'MB',
+            'NB',
+            'NL',
+            'NT',
+            'NS',
+            'NU',
+            'ON',
+            'PE',
+            'QC',
+            'SK',
+            'YT',
+          ],
+        ],
       },
       location: {
         type: DataTypes.VIRTUAL,
