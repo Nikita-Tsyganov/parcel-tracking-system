@@ -29,22 +29,58 @@
         >
       </form>
     </div>
+    <div>
+      <RecentlyTrackedItem
+        v-for="trackingItem in retrieve"
+        :key="trackingItem.id"
+        :trackingItem="retrieve"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import RecentlyTrackedItem from '~/components/RecentlyTrackedItem'
 export default {
+  components: {
+    RecentlyTrackedItem,
+  },
   data() {
     return {
       trackingNumber: null,
+      recentlyTracked: [],
+      recentlyTrackedItems: [], //idk
     }
   },
   methods: {
-    track() {
+    async track() {
       if (this.trackingNumber !== null && this.trackingNumber !== '') {
         this.$router.push(`/${this.trackingNumber}`)
       }
+      const parcel = await this.$store.dispatch(
+        'parcels/find',
+        this.trackingNumber
+      )
+
+      this.recentlyTracked.push(parcel)
+      if (process.browser) {
+        this.$auth.$storage.setLocalStorage(
+          this.trackingNumber,
+          this.recentlyTracked
+        )
+      }
     },
+  },
+  // issue remaining is with accessing local storage and getting it to the component.
+  mounted() {
+    var recentlyTrackedItems = [],
+      keys = Object.keys(),
+      i = keys.length
+
+    while (i--) {
+      recentlyTrackedItems.push(this.$auth.$storage.getLocalStorage(i).items)
+    }
+    console.log(recentlyTrackedItems)
   },
 }
 </script>

@@ -10,10 +10,8 @@ export const baseMutations = (stateModel) => {
   return {
     ALL: (state, records) => (state[stateModel] = records),
     CREATE: (state, record) => state[stateModel].push(record),
-    UPDATE: (state, updatedRecord) => {
-      let recordToUpdate = state[stateModel].find(
-        (v) => v.id == updatedRecord.id
-      )
+    UPDATE: (state, id, updatedRecord) => {
+      let recordToUpdate = state[stateModel].find((v) => v.id == id)
       let index = state[stateModel].indexOf(recordToUpdate)
       state[stateModel].splice(index, 1, updatedRecord)
     },
@@ -33,6 +31,7 @@ export const baseActions = (model) => {
     },
     async find({ commit }, id) {
       let foundRecord = await this[model].find(id)
+      commit('ALL', [foundRecord])
       return foundRecord
     },
     async create({ commit }, record) {
@@ -42,7 +41,7 @@ export const baseActions = (model) => {
     },
     async update({ commit }, id, body) {
       let updatedRecord = await this[model].update(id, body)
-      commit('UPDATE', updatedRecord)
+      commit('UPDATE', id, updatedRecord)
       return updatedRecord
     },
     async delete({ commit }, id) {
