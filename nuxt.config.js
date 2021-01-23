@@ -35,6 +35,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/auth-next',
   ],
 
   fontawesome: {
@@ -53,4 +54,25 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: 'user',
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/sessions', method: 'post' },
+          logout: { url: '/sessions', method: 'delete' },
+          user: { url: '/sessions/user', method: 'get' },
+        },
+      },
+    },
+  },
 }
