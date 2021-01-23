@@ -14,10 +14,10 @@ DB_NAME = "YOUR_DB_NAME"
 DB_USERNAME = "YOUR_USERNAME"
 DB_PASSWORD = "YOUR_PASSWORD"
 
-# run migrations
+# run migrations (run this only if your database is empty)
 npx sequelize-cli db:migrate
 
-# run seeds
+# run seeds (run this only if your database is empty)
 npx sequelize-cli db:seed:all
 
 # run server with hot reload at localhost:5000
