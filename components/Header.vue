@@ -9,6 +9,9 @@
         <b-navbar-nav>
           <b-nav-item to="/">Home</b-nav-item>
         </b-navbar-nav>
+        <b-navbar-nav>
+          <b-nav-item to="/admin/parcels">Admin</b-nav-item>
+        </b-navbar-nav>
 
         <!-- For later use with authorization -->
         <b-navbar-nav class="ml-auto">
