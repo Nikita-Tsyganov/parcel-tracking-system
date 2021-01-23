@@ -15,13 +15,14 @@
 
         <!-- For later use with authorization -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown right v-if="$auth.loggedIn">
             <template #button-content>
-              <em>User</em>
+              <em>{{ $auth.user.id }}</em>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item href="#">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
+          <b-nav-item v-else to="/login">Login</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </div>
