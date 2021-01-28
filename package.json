@@ -27,7 +27,7 @@
     "nuxt": "^2.14.12",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "sequelize": "^6.4.0"
+    "sequelize": "^6.5.0"
   },
   "devDependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.15.2",
