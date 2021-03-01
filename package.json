@@ -17,7 +17,7 @@
     "@nuxtjs/auth-next": "5.0.0-1613647907.37b1156",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/pwa": "^3.3.5",
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "bootstrap": "^5.0.0-beta2",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.9.0",
