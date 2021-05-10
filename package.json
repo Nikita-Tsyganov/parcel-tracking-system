@@ -14,7 +14,7 @@
     "devserver": "nodemon server/server.js"
   },
   "dependencies": {
-    "@nuxtjs/auth-next": "5.0.0-1616003482.75c20e6",
+    "@nuxtjs/auth-next": "5.0.0-1620457172.0cf714c",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/pwa": "^3.3.5",
     "bcrypt": "^5.0.1",
